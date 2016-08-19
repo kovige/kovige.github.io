@@ -3,26 +3,26 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Bonjour Monde | 可会知</title>
+    <title>小程序（1）——内网扫描工具 | 可会知</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="" />
+        <meta name="keywords" content="内网漫游,socks,reGrorg" />
     
-    <meta name="description" content="MeReMe的博客，分享学习总结，可能和一些乱七八糟的东西
-More info: weibo">
+    <meta name="description" content="这是一个搭配reGeorg工具使用的内网扫描脚本。当我们利用weshell做代理内网渗透时，reGeorg是一个常用的手段。windows下reGeorg搭配proxifier，能够访问webshell所在的内网机器。简单说下reGeorg使用：将对应的tunnel脚本上传到webshell服务器后，在本机运行reGeorgSocksProxy.py做代理，-p 设置端口
+python reGeo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Bonjour Monde">
-<meta property="og:url" content="https://kovige.github.io/2016/08/17/hello-world/index.html">
+<meta property="og:title" content="小程序（1）——内网扫描工具">
+<meta property="og:url" content="https://kovige.github.io/2016/08/19/小程序（1）——内网扫描工具/index.html">
 <meta property="og:site_name" content="可会知">
-<meta property="og:description" content="MeReMe的博客，分享学习总结，可能和一些乱七八糟的东西
-More info: weibo">
-<meta property="og:image" content="https://kovige.github.io/./md1_images/hello.jpg">
-<meta property="og:updated_time" content="2016-08-17T12:52:50.815Z">
+<meta property="og:description" content="这是一个搭配reGeorg工具使用的内网扫描脚本。当我们利用weshell做代理内网渗透时，reGeorg是一个常用的手段。windows下reGeorg搭配proxifier，能够访问webshell所在的内网机器。简单说下reGeorg使用：将对应的tunnel脚本上传到webshell服务器后，在本机运行reGeorgSocksProxy.py做代理，-p 设置端口
+python reGeo">
+<meta property="og:image" content="https://kovige.github.io/./md4_images/2016-08-19_162049.png">
+<meta property="og:updated_time" content="2016-08-19T09:15:22.577Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bonjour Monde">
-<meta name="twitter:description" content="MeReMe的博客，分享学习总结，可能和一些乱七八糟的东西
-More info: weibo">
-<meta name="twitter:image" content="https://kovige.github.io/./md1_images/hello.jpg">
+<meta name="twitter:title" content="小程序（1）——内网扫描工具">
+<meta name="twitter:description" content="这是一个搭配reGeorg工具使用的内网扫描脚本。当我们利用weshell做代理内网渗透时，reGeorg是一个常用的手段。windows下reGeorg搭配proxifier，能够访问webshell所在的内网机器。简单说下reGeorg使用：将对应的tunnel脚本上传到webshell服务器后，在本机运行reGeorgSocksProxy.py做代理，-p 设置端口
+python reGeo">
+<meta name="twitter:image" content="https://kovige.github.io/./md4_images/2016-08-19_162049.png">
     
 
     
@@ -134,14 +134,14 @@ More info: weibo">
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-hello-world" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-小程序（1）——内网扫描工具" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Bonjour Monde
+        小程序（1）——内网扫描工具
         </h1>
     
 
@@ -149,15 +149,65 @@ More info: weibo">
         
         
             <div class="article-subtitle">
-                <a href="/2016/08/17/hello-world/" class="article-date">
-    <time datetime="2016-08-17T07:00:48.782Z" itemprop="datePublished">2016-08-17</time>
+                <a href="/2016/08/19/小程序（1）——内网扫描工具/" class="article-date">
+    <time datetime="2016-08-19T09:11:04.596Z" itemprop="datePublished">2016-08-19</time>
 </a>
                 
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内网漫游-socks-reGrorg/">内网漫游,socks,reGrorg</a></li></ul>
+
             </div>
         
         <div class="article-entry" itemprop="articleBody">
-            <p>MeReMe的博客，分享学习总结，可能和一些乱七八糟的东西<br><img src="./md1_images/hello.jpg" alt="enter description here" title="hello.jpg"></p>
-<p>More info: <a href="http://weibo.com/macalon" target="_blank" rel="external">weibo</a></p>
+            <p>这是一个搭配<strong>reGeorg</strong>工具使用的内网扫描脚本。<br>当我们利用weshell做代理内网渗透时，reGeorg是一个常用的手段。windows下reGeorg搭配proxifier，能够访问webshell所在的内网机器。<br>简单说下<strong>reGeorg使用</strong>：<br>将对应的tunnel脚本上传到webshell服务器后，在本机运行reGeorgSocksProxy.py做代理，-p 设置端口</p>
+<pre><code>python reGeorgSocksProxy.py -p 1234 -u http://xx.com/tunnel.jsp
+</code></pre><p>然后运行Proxifier，配置一个代理服务器，port是上一步设置的端口，然后就可以欢快地访问webshell所在内网的其他服务器了<br><img src="./md4_images/2016-08-19_162049.png" alt="enter description here" title="2016-08-19_162049.png"></p>
+<blockquote>
+<p>为什么写了这么个工具呢</p>
+</blockquote>
+<p>当你在shell服务器中，获取到多个内网网段时，这时就会想批量地检测一下哪些ip开了http端口，可是很多工具是不经过我们的代理服务器的，一时又想不起来什么可配置socks5代理的扫描器。只是差了一小点，与其不去找工具了，写个脚本吧。<br>需要的环境和包：</p>
+<ul>
+<li>Python 2.6+</li>
+<li>pysocks(使用socks代理)</li>
+<li>win_inet_pton（解决windows下pysocks报错）</li>
+</ul>
+<p>和常规http请求的python程序不同的地方，只是多配置了一个socks代理，相当于把Proxifier的功能搬到程序中，几行代码而已；之后就进行正常的http请求，requests或者urllib2都可以</p>
+<pre><code>def scan():
+    SOCKS_PROXY_HOST = &apos;127.0.0.1&apos;
+    SOCKS_PROXY_PORT = 1234
+    ……
+    default_socket = socket.socket
+    socks.set_default_proxy(socks.SOCKS5, SOCKS_PROXY_HOST,SOCKS_PROXY_PORT)
+    socket.socket = socks.socksocket
+</code></pre><p>程序中设置了常用端口：</p>
+<pre><code>ip_port = [22, 80, 443, 3389, 6379, 7001, 8080, 27017]
+</code></pre><p><strong>使用方法</strong>：python net_scan.py –ip 192.168.10.0/24<br>扫描完成后在当前目录生成一个txt文件</p>
+<blockquote>
+<p>进击的功能</p>
+</blockquote>
+<p>程序到这儿非常简单，然后就想说为什么不干脆扫一下敏感路径呢。于是添加了一个扫路径功能，程序结构变成了这样<br><img src="./md4_images/2016-08-19_164531.png" alt="enter description here" title="2016-08-19_164531.png"></p>
+<p>使用时，先在dic文件夹中添加字典，命名规则必须是这样：<br><img src="./md4_images/2016-08-19_165040.png" alt="enter description here" title="2016-08-19_165040.png"><br>net_scan.py中调用dir_scan.py中的方法,dir_scan.py是一个类，所以稍微修改一下也可以单独使用。如果不想使用路径扫描功能，将程序最后下列代码注释（毕竟如果ip列表和字典大了会比较慢）：</p>
+<pre><code>batchScan = batch_scan(success_list)
+batchScan.getList()
+batchScan.run()
+dirScan_path = str(time.strftime(&apos;%Y%m%d%H%M%S&apos;,time.localtime(time.time())))+&apos;_&apos;+str(ip_lists[0])+&apos;_dir.txt&apos;
+for url in batchScan.successList:
+    saveFile(url,dirScan_path)
+</code></pre><p>为什么字典命名要固定,这里是由于程序自动筛选字典，根据header中的信息，来选择字典：</p>
+<pre><code>powered_by = headers[&apos;x-powered-by&apos;].lower()
+server = headers[&apos;server&apos;].lower()
+if (&apos;php&apos;) in powered_by:
+    self.choose_dic(&apos;php&apos;)
+elif (&apos;asp&apos;) in powered_by:
+    self.choose_dic(&apos;asp&apos;)
+    self.choose_dic(&apos;aspx&apos;)
+elif (&apos;jboss&apos; and &apos;java&apos; and &apos;jsp&apos; and &apos;weblogic&apos;) in powered_by:
+    self.choose_dic(&apos;jsp&apos;)
+elif (&apos;tomcat&apos;) in server:
+    self.choose_dic(&apos;jsp&apos;)
+elif (&apos;centos&apos; and &apos;linux&apos; and &apos;redhat&apos;) in server:
+    self.choose_dic(&apos;php&apos;)
+    self.choose_dic(&apos;jsp&apos;)
+</code></pre><p>由于测试比较少，所以只提取了<strong>x-powered-by</strong>和<strong>server</strong>，而且匹配的字符也比较少，如果没有匹配到信息默认选择dir和backup字典，之后有空会优化~<br>扫描结束后也会生成txt文件<br>程序地址：<a href="https://github.com/kovige/NetScan" target="_blank" rel="external">https://github.com/kovige/NetScan</a><br>不要在意程序里那些细节，毕竟我是个女同学，就是这样！</p>
 
         </div>
         <footer class="article-footer">
@@ -165,7 +215,7 @@ More info: weibo">
 
 
 
-    <a data-url="https://kovige.github.io/2016/08/17/hello-world/" data-id="cis1je0z40000q4o8y5c5rv7e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://kovige.github.io/2016/08/19/小程序（1）——内网扫描工具/" data-id="cis1je0zf0002q4o8n05pcl4w" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -301,16 +351,12 @@ More info: weibo">
         
 <nav id="article-nav">
     
-        <a href="/2016/08/17/PHP序列化学习总结/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">newer</strong>
-        <p class="article-nav-title">
-        
-            PHP序列化学习总结
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
     
+        <a href="/2016/08/17/微信公众平台开发入门/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">微信公众平台开发入门</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
     
 </nav>
 
@@ -484,7 +530,7 @@ More info: weibo">
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'https://kovige.github.io/2016/08/17/hello-world/';
+    var disqus_url = 'https://kovige.github.io/2016/08/19/小程序（1）——内网扫描工具/';
     
     (function() {
     var dsq = document.createElement('script');
