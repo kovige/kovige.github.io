@@ -3,15 +3,23 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Etiqueta: 微信,php,mysql | 可会知</title>
+    <title>小程序（2）—— openwall爬虫工具 | 可会知</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="可会知">
-<meta property="og:url" content="https://kovige.github.io/tags/微信-php-mysql/index.html">
+        <meta name="keywords" content="kovige,cve,openwall,爬虫" />
+    
+    <meta name="description" content="某段时间看了看cve的提交，逛了很久openwall，经过了几次尴尬的邮件交流。发现选对目标很重要~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序（2）—— openwall爬虫工具">
+<meta property="og:url" content="https://kovige.github.io/2016/08/26/小程序（2）—— openwall爬虫工具/index.html">
 <meta property="og:site_name" content="可会知">
+<meta property="og:description" content="某段时间看了看cve的提交，逛了很久openwall，经过了几次尴尬的邮件交流。发现选对目标很重要~">
+<meta property="og:image" content="https://kovige.github.io/md5_images/1.png">
+<meta property="og:updated_time" content="2016-08-26T09:33:42.145Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="可会知">
+<meta name="twitter:title" content="小程序（2）—— openwall爬虫工具">
+<meta name="twitter:description" content="某段时间看了看cve的提交，逛了很久openwall，经过了几次尴尬的邮件交流。发现选对目标很重要~">
+<meta name="twitter:image" content="https://kovige.github.io/md5_images/1.png">
     
 
     
@@ -119,77 +127,154 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-tag"></i>Etiqueta: <em>微信,php,mysql</em>
+    <a class="page-title-link" href="/categories/开发笔记/">开发笔记</a>
     </h1>
 </div>
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-小程序（2）—— openwall爬虫工具" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2016" class="archive-year"><i class="icon fa fa-calendar-o"></i>2016</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2016/08/17/微信公众平台开发入门/" class="thumbnail">
-    
-    
-        <span style="background-image:url(./md3_images/1466131005951.jpg)" alt="微信公众平台开发入门" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-url="https://kovige.github.io/2016/08/17/微信公众平台开发入门/">0</span>
-    
-</span>
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <p class="category">
-            
-            </p>
-            <p class="date"><time datetime="2016-08-17T13:24:17.022Z" itemprop="datePublished">2016-08-17</time></p>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2016/08/17/微信公众平台开发入门/">微信公众平台开发入门</a>
+        小程序（2）—— openwall爬虫工具
         </h1>
     
 
-        <p class="article-excerpt">
-            
-1、准备首先你得有一个微信公众号，一个服务器没有服务器可以用新浪云服务 https://sae.sina.com.cn
+            </header>
+        
+        
+            <div class="article-subtitle">
+                <a href="/2016/08/26/小程序（2）—— openwall爬虫工具/" class="article-date">
+    <time datetime="2016-08-26T09:31:33.140Z" itemprop="datePublished">2016-08-26</time>
+</a>
+                
+    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cve/">cve</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kovige/">kovige</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openwall/">openwall</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li></ul>
 
-选择 云应用SAE -&gt; 添加新应用
-代码上传：SAE支持Git、SVN、代码打包上传三种提交方式例如：git方式：在你应用的git代码目录里，添加一个新的git远程仓库 sae$ git remote add sae https://git.sinacloud.com
-        </p>
+            </div>
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>某段时间看了看cve的提交，逛了很久<a href="http://www.openwall.com/lists/oss-security/" target="_blank" rel="external">openwall</a>，经过了几次尴尬的邮件交流。发现选对目标很重要~</p>
+<a id="more"></a>
+<h2 id="0x00-为什么写了这么个程序呢"><a href="#0x00-为什么写了这么个程序呢" class="headerlink" title="0x00 为什么写了这么个程序呢"></a>0x00 为什么写了这么个程序呢</h2><ul>
+<li>发在openwall上面的cve请求邮件太多了，各种类型的应用漏洞都有，并不是所有的都被收录，被收录的也并不是所有类型的都看得懂</li>
+<li>而且私心觉得这网站的前端很丑，行间距太小了，还带了一种非常html原生的深蓝色字体，作为女生表示看起来很累</li>
+<li>被cve收录的漏洞请求邮件，间隔几天就会收到来自<strong>cve-assign@mitre.org</strong>的回复邮件，所以只要爬下回复邮件就知道cve最近收录了哪些漏洞</li>
+</ul>
+<h2 id="0x01-使用方法"><a href="#0x01-使用方法" class="headerlink" title="0x01 使用方法"></a>0x01 使用方法</h2><p>爬取整年：</p>
+<pre><code>openwall.py --year 2016
+</code></pre><p>爬取某年某月：</p>
+<pre><code>openwall.py --year 2016 --month 8
+</code></pre><p>完了之后，生成一个html文件：</p>
+<p><img src="https://kovige.github.io/md5_images/1.png" alt="结果图片"></p>
+<p>这样，就知道了openwall上最近被收录了哪些漏洞，再自己查关键字，看看有没有可挖的，点进链接该月份通过标题再找到原始邮件，可以看看漏洞详情。过阵子再添加一个获取原始邮件的功能吧~</p>
+<h2 id="0x02-细节记录"><a href="#0x02-细节记录" class="headerlink" title="0x02 细节记录"></a>0x02 细节记录</h2><ul>
+<li>一开始只是想稍微检查一下输入，可以一检查，完全停不下来，于是就花了很大篇幅写了个<code>check</code>函数，然后并没有什么暖用，但是可以随便调戏程序了</li>
+<li>爬虫的时候遇到了一个小问题，最开始正则匹配出来一直是错位的，因为这网站的html标签都没有什么特别的属性，邮件标题也是不确定的，改了很久，最后去掉换行符<code>&lt;li&gt;&lt;a href=&quot;(\d\d/\d+)&quot;&gt;[^\n]*?&lt;/a&gt; \(cve-assign&amp;#64;...re.org\)</code>，才解决了这个错位</li>
+<li>最后生成html文件，用了一个非常好用的python库<strong>pyh</strong></li>
+</ul>
+<p>生成html标题：</p>
+<pre><code>page = PyH(&apos;Results &apos;+year+&apos; &apos;+month)
+</code></pre><p>添加CSS：</p>
+<pre><code>page.addCSS(&apos;style.css&apos;)
+</code></pre><p>添加JS：</p>
+<pre><code>page.addJS(&apos;1.js&apos;)
+</code></pre><p>添加div:</p>
+<pre><code>div_1 = page &lt;&lt; div(cl=&apos;help&apos;,id=&apos;table&apos;)
+</code></pre><p>‘<strong>cl</strong>‘是<strong>class</strong>,’<strong>&lt;&lt;</strong>‘就是嵌套，在使用’<strong>&lt;&lt;</strong>‘时，我用的是eclipse，会报错，不知道其他编辑器是不是也这么顽皮，反正不管它</p>
+<p>添加表格</p>
+<pre><code>table_1 = div_1 &lt;&lt; table()
+</code></pre><p>表格中添加列名：</p>
+<pre><code>table_1 &lt;&lt; tr(th(&apos;Url&apos;)+th(&apos;Title&apos;))
+</code></pre><p>添加表内容，这里用了循环：</p>
+<pre><code>for num in xrange(0,len(list_url)):
+    tr_1 = table_1 &lt;&lt; tr(id = &apos;id_1&apos;)
+    tr_1 &lt;&lt; td() &lt;&lt; a(list_url[num],href=list_url[num])
+    tr_1 &lt;&lt; td(list_title[num])
+</code></pre><p>最后，保存成文件：</p>
+<pre><code>page.printOut(fileName, &apos;utf-8&apos;)
+</code></pre><p><a href="https://github.com/kovige/openwall" target="_blank" rel="external">程序地址</a></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://kovige.github.io/2016/08/26/小程序（2）—— openwall爬虫工具/" data-id="cisbk9o8o0000qso8djpl2jng" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
 </article>
+
+    <section id="comments">
     
-        </div>
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
     
-
-
-    </div></section>
-
-
+    </section>
 
                         </div>
                     </section>
@@ -249,6 +334,19 @@
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/08/25/PHP序列化学习总结/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">antiguo</strong>
+        <p class="article-nav-title">PHP序列化学习总结</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -446,11 +544,13 @@
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'https://kovige.github.io/2016/08/26/小程序（2）—— openwall爬虫工具/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
