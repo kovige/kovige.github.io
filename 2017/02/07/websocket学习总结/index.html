@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>websocket学习总结 | 可会知</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="kovige,python," />
+  
+
+  <meta name="description" content="基于python的websocet服务端代码阅读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="websocket学习总结">
+<meta property="og:url" content="https://kovige.github.io/2017/02/07/websocket学习总结/index.html">
+<meta property="og:site_name" content="可会知">
+<meta property="og:description" content="基于python的websocet服务端代码阅读">
+<meta property="og:image" content="https://kovige.github.io/./md6_images/2016-12-21_151219.jpg">
+<meta property="og:image" content="https://kovige.github.io/./md6_images/2016-12-21_163212.jpg">
+<meta property="og:image" content="https://kovige.github.io/./md6_images/2016-12-22_102848.jpg">
+<meta property="og:updated_time" content="2017-02-07T09:01:56.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="websocket学习总结">
+<meta name="twitter:description" content="基于python的websocet服务端代码阅读">
+<meta name="twitter:image" content="https://kovige.github.io/./md6_images/2016-12-21_151219.jpg">
+
+  
+
+  
+    <link rel="icon" href="/tgl.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-websocket的快速使用"><span class="toc-text">0x00 websocket的快速使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-连接过程解析"><span class="toc-text">0x00 连接过程解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、SocketServer"><span class="toc-text">1、SocketServer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、websocket连接：Handshake"><span class="toc-text">2、websocket连接：Handshake</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、websocket接收数据"><span class="toc-text">2、websocket接收数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、websocket发送数据"><span class="toc-text">3、websocket发送数据</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-websocket学习总结" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">websocket学习总结</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.02.07</span>
+      </span>
+
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/开发笔记/">开发笔记</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://kovige.github.io/2017/02/07/websocket学习总结/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>基于python的websocet服务端代码阅读</p>
+<a id="more"></a>
+<h2 id="0x00-websocket的快速使用"><a href="#0x00-websocket的快速使用" class="headerlink" title="0x00 websocket的快速使用"></a>0x00 websocket的快速使用</h2><p>WebSocket是一个基于HTTP协议的持久化的协议，用于服务端与客户端的长连接<br>快速上手的资源来源：<br><a href="https://pypi.python.org/pypi?%3Aaction=search&amp;term=websocket&amp;submit=search" target="_blank" rel="external">https://pypi.python.org/pypi?%3Aaction=search&amp;term=websocket&amp;submit=search</a><br>or<br><a href="https://github.com/search?l=Python&amp;q=websocket&amp;type=Repositories&amp;utf8=%E2%9C%93" target="_blank" rel="external">https://github.com/search?l=Python&amp;q=websocket&amp;type=Repositories&amp;utf8=%E2%9C%93</a></p>
+<p>推荐:<br><a href="https://github.com/Pithikos/python-websocket-server" target="_blank" rel="external">https://github.com/Pithikos/python-websocket-server</a><br><a href="https://pypi.python.org/pypi/websocket-server/0.4" target="_blank" rel="external">https://pypi.python.org/pypi/websocket-server/0.4</a></p>
+<p>websocket_server的使用：<br>超方便，超喜欢！<br>提供了三个功能性函数和设定函数的接口：</p>
+<ul>
+<li>new_client （新客户端握手成功） ：set_fn_new_client()</li>
+<li>client_left （客户端关闭连接） ：set_fn_client_left()</li>
+<li>message_received （收到客户端的消息） ：set_fn_message_received()</li>
+</ul>
+<p>两个server类的方法:</p>
+<ul>
+<li>send_message(client,message)</li>
+<li>send_message_to_all(msg)</li>
+</ul>
+<pre><code>from websocket_server import WebsocketServer
+
+# Called for every client connecting (after handshake)
+def new_client(client, server):
+    print(&quot;New client connected and was given id %d&quot; % client[&apos;id&apos;])
+    server.send_message_to_all(&quot;Hey all, a new client has joined us&quot;)
+
+
+# Called for every client disconnecting
+def client_left(client, server):
+    print(&quot;Client(%d) disconnected&quot; % client[&apos;id&apos;])
+
+
+# Called when a client sends a message
+def message_received(client, server, message):
+    if len(message) &gt; 200:
+        message = message[:200]+&apos;..&apos;
+    print(&quot;Client(%d) said: %s&quot; % (client[&apos;id&apos;], message))
+
+
+PORT=9001
+server = WebsocketServer(PORT)
+server.set_fn_new_client(new_client)
+server.set_fn_client_left(client_left)
+server.set_fn_message_received(message_received)
+server.run_forever()
+</code></pre><h2 id="0x00-连接过程解析"><a href="#0x00-连接过程解析" class="headerlink" title="0x00 连接过程解析"></a>0x00 连接过程解析</h2><p>websocket_server代码阅读<br>取出相应模块打造一个简单websocket服务端</p>
+<h3 id="1、SocketServer"><a href="#1、SocketServer" class="headerlink" title="1、SocketServer"></a>1、SocketServer</h3><blockquote>
+<p><strong>server：</strong></p>
+</blockquote>
+<p>SocketServer是python的网络服务框架模块，提供了4种基础服务器类：</p>
+<ul>
+<li>BaseServer：所有服务器类的父类，定义了服务器类的所有方法接口，不直接使用</li>
+<li>TCPServer/UDPServer：同步TCP(服务器和客户端之间的连续数据流)/UDP服务器（无序间断的数据包）</li>
+<li>UnixStreamServer/UnixDatagramServer：使用Unix域套接字，适用于Unix平台</li>
+</ul>
+<p><strong>参数：</strong><br>server_address（服务器地址）, RequestHandlerClass（请求处理器类）, bind_and_activate=True（绑定和监听服务器）<br><strong>属性：</strong><br>daemon_threads：指示服务器是否要等待线程终止，要是线程互相独立，必须要设置为True，默认是False<br>allow_reuse_address：地址的重用，设置allow_reuse_address = True（默认为False）<br><img src="./md6_images/2016-12-21_151219.jpg" alt="基础服务器类的派生图" title="2016-12-21_151219.jpg"></p>
+<p>以上4种服务器同步传递数据，每个请求必须等到上一个请求完成之后才处理，为了实现进程和线程化，提供了一下几类：</p>
+<ul>
+<li>ForkingMixIn/ ThreadingMixIn：实现进程化/线程化，提供异步特性，不直接实例化</li>
+<li>ForkingTCPServer/ ForkingUDPServer：ForkingMixIn和TCPServer/UDPServer的组合类，继承了ForkingMixIn和TCPServer/UDPServer</li>
+<li>ThreadingTCPServer/ThreadingUDPServer：ThreadingMixIn和TCPServer/UDPServer的组合类，继承了ThreadingMixIn和TCPServer/UDPServer</li>
+</ul>
+<p><img src="./md6_images/2016-12-21_163212.jpg" alt="异步服务器类派生图" title="2016-12-21_163212.jpg"></p>
+<blockquote>
+<p><strong>handler：</strong></p>
+</blockquote>
+<p>请求处理类，提供一下三种：</p>
+<ul>
+<li>BaseRequestHandler：提供处理服务请求的核心功能，不能直接实例化</li>
+<li>StreamRequestHandler/ DatagramRequestHandler：用于TCP/UDP服务器的服务请求处理，派生于BaseRequestHandler</li>
+</ul>
+<p>根据上面的特性，在程序中使用 ThreadingTCPServer和StreamRequestHandler</p>
+<pre><code>class MyStreamRequestHandler(StreamRequestHandler):  
+    allow_reuse_address = True
+    daemon_threads = True
+    #……other settings
+
+    #重写handle函数
+    def handle(self): 
+    #……some codes
+</code></pre><h3 id="2、websocket连接：Handshake"><a href="#2、websocket连接：Handshake" class="headerlink" title="2、websocket连接：Handshake"></a>2、websocket连接：Handshake</h3><p>获取连接的http请求包：</p>
+<pre><code>GET / HTTP/1.1
+Host: localhost:9999
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Origin: file://
+Sec-WebSocket-Version: 13
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.6
+Sec-WebSocket-Key: YtMH+mxpOjnwpBwj+hYVgg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+</code></pre><p>需要的参数：Upgrade，Sec-WebSocket-Key</p>
+<ol>
+<li>根据Upgrade判断是否是websocket请求</li>
+<li>生成Sec-WebSocket-Accept：<br>将Sec-WebSocket-Key和GUID（ GUID是一个固定值 ）合并，依次经过Sha1加密和Base64加密，生成Sec-WebSocket-Accept，返回给客户端</li>
+<li>返回给客户端<br>HTTP/1.1 101 Switching Protocols<br>Upgrade: websocket<br>Connection: Upgrade<br>Sec-WebSocket-Accept: %s</li>
+</ol>
+<p>tips：<br>老版的websocket的握手方式不同，key由请求包中的Sec-WebSocket-Key1、Sec-WebSocket-Key2和客户端握手请求的最后8个字节合并加密生成</p>
+<p>handshake代码：</p>
+<pre><code>def handshake(self):
+    try: 
+        #接收request包
+        data = self.request.recv(1024).decode(&apos;unicode-escape&apos;,&apos;ignore&apos;).strip()
+        print &quot;receive from (%r):%r&quot; % (self.client_address, data) 
+    except:  
+        traceback.print_exc()  
+    #匹配upgrade，判断是否websocket请求
+    upgrade = re.search(&apos;\nupgrade[\s]*:[\s]*websocket&apos;, data.lower())
+    if not upgrade:
+        self.keep_alive = False
+        return
+    #获取Sec-WebSocket-Accept
+    key = re.search(&apos;\n[sS]ec-[wW]eb[sS]ocket-[kK]ey[\s]*:[\s]*(.*)\r\n&apos;, data)
+    if key:
+        key = key.group(1)
+        key_return = self.generate_token(key)
+        response = \
+      &apos;HTTP/1.1 101 Switching Protocols\r\n&apos;\
+      &apos;Upgrade: websocket\r\n&apos;              \
+      &apos;Connection: Upgrade\r\n&apos;             \
+      &apos;Sec-WebSocket-Accept: %s\r\n&apos;        \
+      &apos;\r\n&apos; % key_return
+        #发送返回包
+        self.handshake_status = self.request.send(response)
+        #设置client连接状态为true
+        self.valid_client = True
+
+    else:
+        print(&quot;Client tried to connect but was missing a key&quot;)
+        self.keep_alive = False 
+</code></pre><h3 id="2、websocket接收数据"><a href="#2、websocket接收数据" class="headerlink" title="2、websocket接收数据"></a>2、websocket接收数据</h3><p><img src="./md6_images/2016-12-22_102848.jpg" alt="数据帧结构" title="2016-12-22_102848.jpg"></p>
+<ul>
+<li>0位，FIN，表示消息是否是最后一帧，1：最后一帧；0：非最后一帧</li>
+<li>1-3位，RSV1，RSV2，RSV3，预留空间</li>
+<li>4-7位，Opcode，表示数据类型，0x8：关闭连接, 0x0 为继续，0x1 文本 (以 utf-8 编码)，0x2 为二进制数据</li>
+</ul>
+<p><strong>第一个字节b1处理：</strong></p>
+<pre><code>fin    = b1 &amp; 0x80  
+opcode = b1 &amp; 0x0f 
+</code></pre><ul>
+<li>8位，MASK，定义payload数据是否进行了掩码处理，1：进行了掩码处理</li>
+<li>9-15位，Payload len，payload数据的长度，126：payload长度位为7+16；127：payload长度位为7+64</li>
+</ul>
+<p><strong>第二个字节b2处理：</strong></p>
+<pre><code>mask = b2 &amp; 0x80
+payload_length = b2 &amp; 0x7f 
+</code></pre><ul>
+<li>16-79位 Extend payload length，payload长度扩展位</li>
+<li>80-111位 Masking-key，MASK=1时，掩码解密密钥，MASK=0：无Masking-key</li>
+</ul>
+<p><strong>第三~十四字节处理：</strong></p>
+<pre><code>payload_length == 126:
+    payload_length = struct.unpack(&quot;&gt;H&quot;, self.rfile.read(2))[0]
+elif payload_length == 127:
+    payload_length = struct.unpack(&quot;&gt;Q&quot;, self.rfile.read(8))[0]
+</code></pre><p><strong>获取数据：</strong></p>
+<ul>
+<li>112-最后一位 Payload，传送的数据</li>
+</ul>
+<p>继续从数据帧读取相应长度的字节，按位循环读取数据，并用掩码的已读取的数据长度对4取模位组来和当前获取到的数据异或</p>
+<pre><code>masks = map(ord,self.rfile.read(4))
+decoded = &quot;&quot;
+for char in map(ord,self.rfile.read(payload_length)):
+    char ^= masks[len(decoded) % 4]
+    decoded += chr(char)   
+</code></pre><h3 id="3、websocket发送数据"><a href="#3、websocket发送数据" class="headerlink" title="3、websocket发送数据"></a>3、websocket发送数据</h3><p>服务端像客户端发送数据，不需要掩码加密<br>消息头：</p>
+<ul>
+<li>FIN:0x80 ，OPCODE：0x01（表示文本类型数据），或操作</li>
+</ul>
+<pre><code>header.append(FIN | OPCODE_TEXT) 
+</code></pre><ul>
+<li>PAYLOAD_LENGTH: </li>
+</ul>
+<pre><code># Normal payload 占7位
+if payload_length &lt;= 125:
+header.append(payload_length)
+
+# Extended payload 占7位+2个字节
+elif payload_length &gt;= 126 and payload_length &lt;= 65535:
+header.append(0x7e)
+header.extend(struct.pack(&quot;&gt;H&quot;, payload_length))
+
+# Huge extended payload 占7位+8个字节
+elif payload_length &lt; 18446744073709551616:
+header.append(0x7f)
+header.extend(struct.pack(&quot;&gt;Q&quot;, payload_length))
+</code></pre><ul>
+<li>PAYLOAD：</li>
+</ul>
+<pre><code>#payload编码
+payload = bytearray(payload,&apos;utf-8&apos;)
+#发送给客户端
+self.request.send(header + payload)
+</code></pre><p>简单服务端结构：</p>
+<pre><code>class MyStreamRequestHandler(StreamRequestHandler):  
+    allow_reuse_address = True
+    daemon_threads = True
+    #自定义参数
+    keep_alive = True
+    handshake_status = False
+    valid_client = False
+
+    def handle(self): 
+    #自定义方法
+    def handshake(self):  
+    def generate_token(self, key1)：
+    def read_message(self):        
+    def send_message(self,message):
+
+if __name__ == &quot;__main__&quot;:  
+    host = &quot;127.0.0.1&quot;       
+    port = 9999     
+    addr = (host, port)  
+    server = ThreadingTCPServer(addr, MyStreamRequestHandler)  
+    server.serve_forever() 
+</code></pre><p>最后，简单websocket服务端全代码：</p>
+<pre><code># -*- coding: utf-8 -*-
+from SocketServer import ThreadingTCPServer, StreamRequestHandler,TCPServer  
+import traceback  
+import re
+import hashlib
+import base64
+import sys
+import struct
+
+
+FIN    = 0x80
+OPCODE = 0x0f
+MASKED = 0x80
+PAYLOAD_LEN = 0x7f
+PAYLOAD_LEN_EXT16 = 0x7e
+PAYLOAD_LEN_EXT64 = 0x7f
+
+OPCODE_TEXT = 0x01
+CLOSE_CONN  = 0x8
+
+class MyStreamRequestHandler(StreamRequestHandler):  
+    allow_reuse_address = True
+    daemon_threads = True
+    keep_alive = True
+    handshake_status = False
+    valid_client = False
+
+
+    def handle(self): 
+        while self.keep_alive:
+            if not self.handshake_status:
+                self.handshake()
+            elif self.valid_client:
+                self.read_message()
+
+    def handshake(self):
+        try:  
+            data = self.request.recv(1024).decode(&apos;unicode-escape&apos;,&apos;ignore&apos;).strip()
+            print &quot;receive from (%r):%r&quot; % (self.client_address, data) 
+        except:  
+            traceback.print_exc()  
+        upgrade = re.search(&apos;\nupgrade[\s]*:[\s]*websocket&apos;, data.lower())
+        if not upgrade:
+            self.keep_alive = False
+            return
+        key = re.search(&apos;\n[sS]ec-[wW]eb[sS]ocket-[kK]ey[\s]*:[\s]*(.*)\r\n&apos;, data)
+        if key:
+            key = key.group(1)
+            print key
+            key_return = self.generate_token(key)
+            print key_return
+            response = \
+          &apos;HTTP/1.1 101 Switching Protocols\r\n&apos;\
+          &apos;Upgrade: websocket\r\n&apos;              \
+          &apos;Connection: Upgrade\r\n&apos;             \
+          &apos;Sec-WebSocket-Accept: %s\r\n&apos;        \
+          &apos;\r\n&apos; % key_return
+            self.handshake_status = self.request.send(response)
+            self.valid_client = True
+
+        else:
+            print(&quot;Client tried to connect but was missing a key&quot;)
+            self.keep_alive = False 
+
+    def generate_token(self, key1):
+        key1 = key1.strip()
+        GUID = &apos;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&apos;
+        str = key1+GUID
+        print str
+        str1 = hashlib.sha1(str).digest()
+        str2 = base64.b64encode(str1)
+        return str2
+
+    def read_message(self):
+        bytes = self.rfile.read(2)
+        b1,b2 = map(ord, bytes)
+        print b1,b2
+        fin    = b1 &amp; FIN
+        opcode = b1 &amp; OPCODE
+        masked = b2 &amp; MASKED
+
+        payload_length = b2&amp;PAYLOAD_LEN 
+
+        if not fin:
+            print(&quot;Client closed connection.&quot;)
+            self.keep_alive = 0
+            return
+        if opcode == CLOSE_CONN:
+            print(&quot;Client asked to close connection.&quot;)
+            self.keep_alive = 0
+            return
+        if not masked:
+            print(&quot;Client must always be masked.&quot;)
+            self.keep_alive = 0
+            return
+
+        if payload_length == 126:
+            payload_length = struct.unpack(&quot;&gt;H&quot;, self.rfile.read(2))[0]
+        elif payload_length == 127:
+            payload_length = struct.unpack(&quot;&gt;Q&quot;, self.rfile.read(8))[0]
+
+        masks = map(ord,self.rfile.read(4))
+        decoded = &quot;&quot;
+        for char in map(ord,self.rfile.read(payload_length)):
+            char ^= masks[len(decoded) % 4]
+            decoded += chr(char)   
+        print decoded
+        if decoded ==&apos;123&apos;:
+            self.send_message(&apos;234&apos;)
+
+    def send_message(self,message):
+        if isinstance(message, bytes):
+            message = message.decode(&apos;utf-8&apos;) # this is slower but assures we have UTF-8
+            if not message:
+                print(&quot;Can\&apos;t send message, message is not valid UTF-8&quot;)
+                return False
+        elif isinstance(message, str) or isinstance(message, unicode):
+            pass
+        else:
+            print(&apos;Can\&apos;t send message, message has to be a string or bytes. Given type is %s&apos; % type(message))
+            return False
+
+        header  = bytearray()
+        payload = message.decode(&apos;utf-8&apos;) 
+        payload_length = len(payload)
+
+        # Normal payload
+        if payload_length &lt;= 125:
+            header.append(FIN | OPCODE_TEXT)
+            header.append(payload_length)
+
+        # Extended payload
+        elif payload_length &gt;= 126 and payload_length &lt;= 65535:
+            header.append(FIN | OPCODE_TEXT)
+            header.append(PAYLOAD_LEN_EXT16)
+            header.extend(struct.pack(&quot;&gt;H&quot;, payload_length))
+
+        # Huge extended payload
+        elif payload_length &lt; 18446744073709551616:
+            header.append(FIN | OPCODE_TEXT)
+            header.append(PAYLOAD_LEN_EXT64)
+            header.extend(struct.pack(&quot;&gt;Q&quot;, payload_length))
+
+        else:
+            raise Exception(&quot;Message is too big. Consider breaking it into chunks.&quot;)
+            return
+        print payload
+        payload = bytearray(payload,&apos;utf-8&apos;)
+#         发送消息
+#         self.request.send(header + payload)
+
+if __name__ == &quot;__main__&quot;:  
+    host = &quot;&quot;       
+    port = 9999     
+    addr = (host, port)  
+    server = ThreadingTCPServer(addr, MyStreamRequestHandler)  
+    server.serve_forever()  
+</code></pre>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持forsigner</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/08/26/小程序（2）—— openwall爬虫工具/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
+    
+    var disqus_url = 'https://kovige.github.io/2017/02/07/websocket学习总结/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

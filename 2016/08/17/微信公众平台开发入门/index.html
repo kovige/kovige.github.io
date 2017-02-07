@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html>
+
+
+  <html class="light page-post">
+
+
 <head>
-    <meta charset="utf-8">
-    
-    <title>微信公众平台开发入门 | 可会知</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-        <meta name="keywords" content="PHP,微信,mysql" />
-    
-    <meta name="description" content="1、准备首先你得有一个微信公众号，一个服务器没有服务器可以用新浪云服务 https://sae.sina.com.cn
+  <meta charset="utf-8">
+  
+  <title>微信公众平台开发入门 | 可会知</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="PHP,微信,mysql," />
+  
+
+  <meta name="description" content="1、准备首先你得有一个微信公众号，一个服务器没有服务器可以用新浪云服务 https://sae.sina.com.cn
 
 选择 云应用SAE -&amp;gt; 添加新应用
 代码上传：SAE支持Git、SVN、代码打包上传三种提交方式例如：git方式：在你应用的git代码目录里，添加一个新的git远程仓库 sae$ git remote add sae https://git.sinacloud.com">
@@ -21,6 +28,8 @@
 选择 云应用SAE -&amp;gt; 添加新应用
 代码上传：SAE支持Git、SVN、代码打包上传三种提交方式例如：git方式：在你应用的git代码目录里，添加一个新的git远程仓库 sae$ git remote add sae https://git.sinacloud.com">
 <meta property="og:image" content="https://kovige.github.io/md3_images/1466131005951.jpg">
+<meta property="og:image" content="https://kovige.github.io/./md3_images/1466134475383.jpg">
+<meta property="og:image" content="https://kovige.github.io/./md3_images/1466148817460.jpg">
 <meta property="og:updated_time" content="2016-08-26T09:56:23.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微信公众平台开发入门">
@@ -29,142 +38,213 @@
 选择 云应用SAE -&amp;gt; 添加新应用
 代码上传：SAE支持Git、SVN、代码打包上传三种提交方式例如：git方式：在你应用的git代码目录里，添加一个新的git远程仓库 sae$ git remote add sae https://git.sinacloud.com">
 <meta name="twitter:image" content="https://kovige.github.io/md3_images/1466131005951.jpg">
-    
 
-    
-        <link rel="alternate" href="/" title="可会知" type="application/atom+xml" />
-    
+  
 
-    
+  
+    <link rel="icon" href="/tgl.ico">
+  
 
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
 
-    <link rel="stylesheet" href="/css/style.css">
 
-    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-        <link rel="stylesheet" href="/vendor/scrollLoading/style.css">
-    
-    
-    
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
 
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
 </head>
 
 <body>
-    <div id="wrap">
-        <header id="header">
-    <div id="header-outer" class="outer">
-        <div class="container">
-            <div class="container-inner">
-                <div id="header-title">
-                    <h1 class="logo-wrap">
-                        <a href="/" class="logo"></a>
-                    </h1>
-                    
-                </div>
-                <div id="header-inner" class="nav-container">
-                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
-                    <div class="nav-container-inner">
-                        <ul id="main-nav">
-                            
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/">Home</a>
-                                </li>
-                            
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/安全笔记/">安全笔记</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/开发笔记/">开发笔记</a></li></ul>
-                                    
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/about/index.html">About</a>
-                                </li>
-                            
-                        </ul>
-                        <nav id="sub-nav">
-                            <div id="search-form-wrap">
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、准备"><span class="toc-text">1、准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、公众号配置和初始"><span class="toc-text">2、公众号配置和初始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、功能开发"><span class="toc-text">3、功能开发</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-微信公众平台开发入门" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">微信公众平台开发入门</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.08.17</span>
+      </span>
+
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/开发笔记/">开发笔记</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://kovige.github.io/2016/08/17/微信公众平台开发入门/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
     </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
+  </header>
 
-</div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-        <div class="container">
-            <div class="main-body container-inner">
-                <div class="main-body-inner">
-                    <section id="main">
-                        <div class="main-body-header">
-    <h1 class="header">
+  <div class="article-content">
     
-    <a class="page-title-link" href="/categories/开发笔记/">开发笔记</a>
-    </h1>
-</div>
-                        <div class="main-body-content">
-                            <article id="post-微信公众平台开发入门" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        微信公众平台开发入门
-        </h1>
-    
-
-            </header>
-        
-        
-            <div class="article-subtitle">
-                <a href="/2016/08/17/微信公众平台开发入门/" class="article-date">
-    <time datetime="2016-08-17T13:24:17.022Z" itemprop="datePublished">2016-08-17</time>
-</a>
-                
-    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微信/">微信</a></li></ul>
-
-            </div>
-        
-        <div class="article-entry" itemprop="articleBody">
-            <blockquote>
+      <blockquote>
 <h2 id="1、准备"><a href="#1、准备" class="headerlink" title="1、准备"></a>1、准备</h2><p>首先你得有一个微信公众号，一个服务器<br>没有服务器可以用新浪云服务 <a href="https://sae.sina.com.cn" target="_blank" rel="external">https://sae.sina.com.cn</a></p>
 </blockquote>
 <p>选择 <strong>云应用SAE</strong> -&gt; <strong>添加新应用</strong><br><img src="https://kovige.github.io/md3_images/1466131005951.jpg" alt=""></p>
@@ -307,390 +387,218 @@ $wechatObj-&gt;valid();//验证请求是否来源于微信
 private function receiveText($object){...}
 private function receiveEvent($object){...}
 </code></pre>
-        </div>
-        <footer class="article-footer">
-            
-
-
-
-    <a data-url="https://kovige.github.io/2016/08/17/微信公众平台开发入门/" data-id="cisbl32m80007wso89r0vf9bv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
-    </div>
+    
+  </div>
 </article>
 
-    <section id="comments">
-    
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持forsigner</div>
+        <ul class="theme.donation.items.length">
         
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
-    
-    </section>
-
-                        </div>
-                    </section>
-                    <aside id="sidebar">
-    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-    <div class="sidebar-top">
-        <p>follow:</p>
-        <ul class="social-links">
-            
-                
-                <li>
-                    <a class="social-tooltip" title="twitter" href="/" target="_blank">
-                        <i class="icon fa fa-twitter"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="facebook" href="/" target="_blank">
-                        <i class="icon fa fa-facebook"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="google-plus" href="/" target="_blank">
-                        <i class="icon fa fa-google-plus"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank">
-                        <i class="icon fa fa-github"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
-                        <i class="icon fa fa-weibo"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="rss" href="/" target="_blank">
-                        <i class="icon fa fa-rss"></i>
-                    </a>
-                </li>
-                
-            
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
         </ul>
+      </div>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/08/19/小程序（1）—— 内网扫描工具/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">newer</strong>
-        <p class="article-nav-title">
-        
-            小程序（1）—— 内网扫描工具
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/08/17/hello-world/">
+        <i class="icon icon-angle-left"></i>
     </a>
-    
-    
-        <a href="/2016/08/17/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">Bonjour Monde</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
+    <a class="show pull-right" href="/2016/08/19/小程序（1）—— 内网扫描工具/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
 
-    
-    <div class="widgets-container">
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
         
-            
-                
-    <div class="widget-wrap">
-        <h3 class="widget-title">recents</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/26/小程序（2）—— openwall爬虫工具/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://kovige.github.io/md5_images/1.png)" alt="小程序（2）—— openwall爬虫工具" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发笔记/">开发笔记</a></p>
-                            <p class="item-title"><a href="/2016/08/26/小程序（2）—— openwall爬虫工具/" class="title">小程序（2）—— openwall爬虫工具</a></p>
-                            <p class="item-date"><time datetime="2016-08-26T09:31:33.140Z" itemprop="datePublished">2016-08-26</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/25/PHP序列化学习总结/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://kovige.github.io/md2_images/obj.png)" alt="PHP序列化学习总结" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/安全笔记/">安全笔记</a></p>
-                            <p class="item-title"><a href="/2016/08/25/PHP序列化学习总结/" class="title">PHP序列化学习总结</a></p>
-                            <p class="item-date"><time datetime="2016-08-25T03:06:54.000Z" itemprop="datePublished">2016-08-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/19/小程序（1）—— 内网扫描工具/" class="thumbnail">
-    
-    
-        <span style="background-image:url(./md4_images/2016-08-19_162049.png)" alt="小程序（1）—— 内网扫描工具" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发笔记/">开发笔记</a></p>
-                            <p class="item-title"><a href="/2016/08/19/小程序（1）—— 内网扫描工具/" class="title">小程序（1）—— 内网扫描工具</a></p>
-                            <p class="item-date"><time datetime="2016-08-19T09:11:04.596Z" itemprop="datePublished">2016-08-19</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/17/微信公众平台开发入门/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://kovige.github.io/md3_images/1466131005951.jpg)" alt="微信公众平台开发入门" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发笔记/">开发笔记</a></p>
-                            <p class="item-title"><a href="/2016/08/17/微信公众平台开发入门/" class="title">微信公众平台开发入门</a></p>
-                            <p class="item-date"><time datetime="2016-08-17T13:24:17.022Z" itemprop="datePublished">2016-08-17</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/17/hello-world/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://kovige.github.io/md1_images/hello.jpg)" alt="Bonjour Monde" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/08/17/hello-world/" class="title">Bonjour Monde</a></p>
-                            <p class="item-date"><time datetime="2016-08-17T07:00:48.782Z" itemprop="datePublished">2016-08-17</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">categories</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/安全笔记/">安全笔记</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发笔记/">开发笔记</a><span class="category-list-count">3</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">archives</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">tags</h3>
-        <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cve/">cve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kovige/">kovige</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openwall/">openwall</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reGrorg/">reGrorg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/session/">session</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/socks/">socks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网漫游/">内网漫游</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/对象/">对象</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信/">微信</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/爬虫/">爬虫</a><span class="tag-list-count">1</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-float">
-        <h3 class="widget-title">tag cloud</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/PHP/" style="font-size: 20px;">PHP</a> <a href="/tags/cve/" style="font-size: 10px;">cve</a> <a href="/tags/kovige/" style="font-size: 20px;">kovige</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/openwall/" style="font-size: 10px;">openwall</a> <a href="/tags/reGrorg/" style="font-size: 10px;">reGrorg</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/socks/" style="font-size: 10px;">socks</a> <a href="/tags/内网漫游/" style="font-size: 10px;">内网漫游</a> <a href="/tags/对象/" style="font-size: 10px;">对象</a> <a href="/tags/微信/" style="font-size: 10px;">微信</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-            
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
         
-    </div>
-</aside>
-                </div>
-            </div>
-        </div>
-        <footer id="footer">
-    <div class="container">
-        <div class="container-inner">
-            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
-            <div class="credit">
-                <h1 class="logo-wrap">
-                    <a href="/" class="logo"></a>
-                </h1>
-                <p>&copy; 2016 John Doe</p>
-                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
         
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
     
-    <script>
-    var disqus_shortname = 'hexo-theme-hueman';
-    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
     
     var disqus_url = 'https://kovige.github.io/2016/08/17/微信公众平台开发入门/';
     
-    (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-    </script>
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
 
 
 
     
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
     
 
-    
-        <script src="/vendor/scrollLoading/jquery.scrollLoading.js"></script>
-        <script src="/vendor/scrollLoading/main.js"></script>
-    
+  </div>
 
+  
 
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
 
-    </div>
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
 </body>
 </html>
