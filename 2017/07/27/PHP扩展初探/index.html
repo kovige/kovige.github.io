@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>PHP扩展初探 | 可会知</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="PHP,扩展," />
+  
+
+  <meta name="description" content="0x00 背景
+
+这学期刚开始的时候为了写论文，要实现这么个功能：
+
+在不修改源码的前提下，以扩展的形式，记录GET、POST、COOKIE、SERVER等信息 
+跟踪以上全局变量 
+在执行SQL函数时进行记录
+
+找到了一个PHP扩展：taint实现的功能：
+
+获取GET、POST、COOKIE值，进行taint标记
+taint标记值进行字符串操作时，将其返回值进行taint标记（除去转义函数a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP扩展初探">
+<meta property="og:url" content="https://kovige.github.io/2017/07/27/PHP扩展初探/index.html">
+<meta property="og:site_name" content="可会知">
+<meta property="og:description" content="0x00 背景
+
+这学期刚开始的时候为了写论文，要实现这么个功能：
+
+在不修改源码的前提下，以扩展的形式，记录GET、POST、COOKIE、SERVER等信息 
+跟踪以上全局变量 
+在执行SQL函数时进行记录
+
+找到了一个PHP扩展：taint实现的功能：
+
+获取GET、POST、COOKIE值，进行taint标记
+taint标记值进行字符串操作时，将其返回值进行taint标记（除去转义函数a">
+<meta property="og:updated_time" content="2017-07-27T08:01:00.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP扩展初探">
+<meta name="twitter:description" content="0x00 背景
+
+这学期刚开始的时候为了写论文，要实现这么个功能：
+
+在不修改源码的前提下，以扩展的形式，记录GET、POST、COOKIE、SERVER等信息 
+跟踪以上全局变量 
+在执行SQL函数时进行记录
+
+找到了一个PHP扩展：taint实现的功能：
+
+获取GET、POST、COOKIE值，进行taint标记
+taint标记值进行字符串操作时，将其返回值进行taint标记（除去转义函数a">
+
+  
+
+  
+    <link rel="icon" href="/tgl.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-PHP扩展初探" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">PHP扩展初探</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.07.27</span>
+      </span>
+
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://kovige.github.io/2017/07/27/PHP扩展初探/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p><strong>0x00 背景</strong></p>
+</blockquote>
+<p>这学期刚开始的时候为了写论文，要实现这么个功能：</p>
+<ol>
+<li>在不修改源码的前提下，以扩展的形式，记录GET、POST、COOKIE、SERVER等信息 </li>
+<li>跟踪以上全局变量 </li>
+<li>在执行SQL函数时进行记录</li>
+</ol>
+<p>找到了一个PHP扩展：<a href="https://github.com/laruence/taint" target="_blank" rel="external">taint</a><br>实现的功能：</p>
+<ol>
+<li>获取GET、POST、COOKIE值，进行taint标记</li>
+<li>taint标记值进行字符串操作时，将其返回值进行taint标记（除去转义函数addslashes等）</li>
+<li>当taint标记作为参数传入敏感函数（eval、echo、query等）时，发起warning</li>
+</ol>
+<blockquote>
+<p><strong>0x01 开始学习-环境搭建</strong></p>
+</blockquote>
+<p>在linux使用源码编译安装PHP，apt-get安装的PHP缺少生成扩展的工具ext_skel，在加载taint扩展时，某些PHP版本出现编译错误，最后使用的PHP5.3.10。</p>
+<p><strong>编译现有扩展：</strong></p>
+<p>扩展：源码ext/<br>usr/local/php/bin/phpize  生成configure<br>./configure –with-php-config=/usr/local/php/bin/php-config<br>make &amp;&amp; make install</p>
+<p>重新编译:make clean</p>
+<p>安装完成后，在PHP安装路径中/lib/php/extensions/no-debug-zts-20090626 生成.so文件<br>修改php.ini，加载新扩展<br>重启apache，扩展出错会影响apache启动和PHP运行……</p>
+<p><strong>通过阅读taint的源码，c++ john snow也能学习写一个自己的扩展</strong></p>
+<p>建立一个自己的扩展，扩展叫testfun1：<br>PHP源码路径/ext_skel –extname=testfun1</p>
+<pre><code>1.  $ cd ..
+2.  $ vi ext/testfun1/config.m4
+3.  $ ./buildconf
+4.  $ ./configure --[with|enable]-testfun1
+5.  $ make
+6.  $ ./php -f ext/testfun1/testfun1.php
+7.  $ vi ext/testfun1/testfun1.c
+8.  $ make
+</code></pre><p>生成三个重要文件：config.m4、php_testfun1.h、testfun1.c</p>
+<p><strong>1、修改config.m4</strong></p>
+<ol>
+<li>作为一个可装载模块 </li>
+<li>静态编译到PHP（需要重新配置PHP）</li>
+</ol>
+<p>dnl If your extension references something external, use with:</p>
+<p>PHP_ARG_WITH(testfun1, for testfun1 support,<br>Make sure that the comment is aligned:<br>[  –with-testfun1             Include testfun1 support])</p>
+<p>dnl Otherwise use enable:</p>
+<p>dnl PHP_ARG_ENABLE(testfun1, whether to enable testfun1 support,<br>dnl Make sure that the comment is aligned:<br>dnl [  –enable-testfun1           Enable testfun1 support])</p>
+<p><strong>2、修改php_testfun1.h</strong><br>PHP_FUNCTION(testfun1);</p>
+<p><strong>3、主要代码文件：testfun1.c</strong></p>
+<p>一些内置函数：<br>PHP启动：<br><code>PHP_MINIT_FUNCTION(testfun1)</code> 模块初始化<br>启动Apache后，PHP解释程序也随之启动，<br>PHP调用各个扩展的MINIT方法，从而使这些扩展切换到可用状态，通过phpinfo查看<br><code>PHP_RINIT_FUNCTION(testfun1)</code> 请求初始化<br>当一个页面请求发生时,PHP调用各个模块的RINIT方法，即“请求初始化”<br><code>PHP_MINFO_FUNCTION(testfun1)</code> 在phpinfo里面展示扩展</p>
+<p>PHP关闭：<br><code>PHP_RSHUTDOWN_FUNCTION(testfun1)</code>页面执行完毕（文件末尾、exit、die），调用各个模块的RSHUTDOWN方法，清除程序运行时产生的符号表<br><code>PHP_MSHUTDOWN_FUNCTION(testfun1)</code>PHP调用每个扩展的MSHUTDOWN方法，这是各个模块最后一次释放内存的机会</p>
+<p>使用扩展实现一些功能：<br>修改 <code>zend_function_entry testfun1_functions[]</code>、<code>PHP_FUNCTION(testfun1)</code></p>
+<p><strong>1、获取全局变量</strong><br>PG 用于定义或获取全局变量<br>在PHP_RINIT_FUNCTION获取全局变量(SERVER有点特殊)</p>
+<pre><code>PG(http_globals)[TRACK_VARS_POST] 
+PG(http_globals)[TRACK_VARS_GET] 
+PG(http_globals)[TRACK_VARS_COOKIE] 
+zend_is_auto_global(ZEND_STRL(&quot;_SERVER&quot;) TSRMLS_CC)
+PG(http_globals)[TRACK_VARS_SERVER]
+</code></pre><p><strong>2、重写php函数</strong></p>
+<p>在~.h中：<br>    <code>PHP_FUNCTION(new_funcname)</code><br>    声明原函数函数变量：<code>typedef void (*php_func)(INTERNAL_FUNCTION_PARAMETERS)</code><br>        <code>INTERNAL_FUNCTION_PARAMETERS</code>:与函数有关的宏定义</p>
+<pre><code>#define INTERNAL_FUNCTION_PARAMETERS int ht, zval *return_value, zval **return_value_ptr, zval *this_ptr, int return_value_  used TSRMLS_DC
+</code></pre><p>在~.c中：<br>    从上到下，声明需在调用之前<br>        定义需要重写的原函数 类型：.h中预定义的 php_func<br>        定义一个zend_function类指针（<code>zend_function *func</code>），使用zend_hash_find（<code>zend_hash_find，function_table</code>）查找原函数，       将其handler指向新函数 (<code>func-&gt;internal_function.handler</code>)<br>        重写函数：<code>PHP_FUNCTION(new_funcname)</code><br>            <code>O_FUNC(base64_decode)(INTERNAL_FUNCTION_PARAM_PASSTHRU)</code>调用之前的函数变量，执行原函数内容<br>            在这之后加入自己的代码<br>            原函数参数和参数类型，参考：<a href="https://sourcecodebrowser.com/php5/5.3.10/files.html" target="_blank" rel="external">PHP源码</a><br>        <code>PHP_MINIT_FUNCTION</code> 中调用自定义函数 <code>php_override_functions</code></p>
+<p><strong>3、    HOOK</strong><br>    zend 提供了opcode，覆盖了所有php代码功能<br>    <a href="http://php.net/manual/zh/internals2.opcodes.add.php" target="_blank" rel="external">opcode表</a><br>    hook 函数 使用 opcode <code>ZEND_DO_FCALL</code>（函数执行）和<code>ZEND_DO_FCALL_BY_NAME</code>（基于变量的函数执行）<br>    指定handler</p>
+<pre><code>zend_set_user_opcode_handler(ZEND_DO_FCALL, do_fcall_handler);
+zend_set_user_opcode_handler(ZEND_DO_FCALL_BY_NAME, do_fcall_by_name_handler);
+</code></pre><p><code>PHP_MINIT_FUNCTION</code> 中调用自定义函数</p>
+<blockquote>
+<p><strong>testfun1 demo：</strong></p>
+</blockquote>
+<p>testfun1.c：</p>
+<pre><code>/*
+  +----------------------------------------------------------------------+
+  | PHP Version 5                                                        |
+  +----------------------------------------------------------------------+
+  | Copyright (c) 1997-2012 The PHP Group                                |
+  +----------------------------------------------------------------------+
+  | This source file is subject to version 3.01 of the PHP license,      |
+  | that is bundled with this package in the file LICENSE, and is        |
+  | available through the world-wide-web at the following url:           |
+  | http://www.php.net/license/3_01.txt                                  |
+  | If you did not receive a copy of the PHP license and are unable to   |
+  | obtain it through the world-wide-web, please send a note to          |
+  | license@php.net so we can mail you a copy immediately.               |
+  +----------------------------------------------------------------------+
+  | Author:                                                              |
+  +----------------------------------------------------------------------+
+*/
+
+/* $Id: header 321634 2012-01-01 13:15:04Z felipe $ */
+
+#ifdef HAVE_CONFIG_H
+#include &quot;config.h&quot;
+#endif
+
+#include &quot;php.h&quot;
+#include &quot;php_ini.h&quot;
+#include &quot;ext/standard/info.h&quot;
+#include &quot;php_testfun1.h&quot;
+
+
+ZEND_DECLARE_MODULE_GLOBALS(testfun1)
+
+
+/* True global resources - no need for thread safety here */
+static int le_testfun1;
+
+/* {{{ testfun1_functions[]
+     *
+     * Every user visible function must have an entry in testfun1_functions[].
+     */
+    const zend_function_entry testfun1_functions[] = {
+    	PHP_FE(testfun1,	NULL)		/* For testing, remove later. */
+    	PHP_FE_END	/* Must be the last line in testfun1_functions[] */
+    };
+    /* }}} */
+
+/* {{{ testfun1_module_entry
+     */
+    zend_module_entry testfun1_module_entry = {
+    #if ZEND_MODULE_API_NO >= 20010901
+    	STANDARD_MODULE_HEADER,
+    #endif
+    	"testfun1",
+    	testfun1_functions,
+    	PHP_MINIT(testfun1),
+    	PHP_MSHUTDOWN(testfun1),
+    	PHP_RINIT(testfun1),		/* Replace with NULL if there's nothing to do at request start */
+    	PHP_RSHUTDOWN(testfun1),	/* Replace with NULL if there's nothing to do at request end */
+    	PHP_MINFO(testfun1),
+    #if ZEND_MODULE_API_NO >= 20010901
+    	"0.1", /* Replace with version number for your extension */
+    #endif
+    	STANDARD_MODULE_PROPERTIES
+    };
+    /* }}} */
+
+#ifdef COMPILE_DL_TESTFUN1
+ZEND_GET_MODULE(testfun1)
+#endif
+
+/* {{{ PHP_INI
+     */
+    /*PHP_INI_BEGIN()
+        STD_PHP_INI_ENTRY("testfun1.global_value",      "42", PHP_INI_ALL, OnUpdateLong, global_value, zend_testfun1_globals, testfun1_globals)
+        STD_PHP_INI_ENTRY("testfun1.global_string", "foobar", PHP_INI_ALL, OnUpdateString, global_string, zend_testfun1_globals, testfun1_globals)
+    PHP_INI_END()
+    */
+    /* }}} */
+
+/* {{{ php_testfun1_init_globals
+     */
+    
+    /*static void php_testfun1_init_globals(zend_testfun1_globals *testfun1_globals)
+    {
+    	testfun1_globals->global_value = 0;
+    	testfun1_globals->global_string = NULL;
+    }
+    */
+    
+    /* }}} */
+static struct overridden_fucs {
+    php_func base64_decode;
+} origin_funcs;
+#define O_FUNC(m) (origin_funcs.m)
+static void php_override_func(char *name, uint len, php_func handler, php_func *stash TSRMLS_DC) /* {{{ */ {
+    	zend_function *func;
+    	if (zend_hash_find(CG(function_table), name, len, (void **)&func) == SUCCESS) {
+    		if (stash) {
+    			*stash = func->internal_function.handler;
+    		}
+    		func->internal_function.handler = handler;
+    	}
+    }
+    static void php_override_functions(TSRMLS_D){
+    	char f_base64_decode[] = "base64_decode";
+    
+    	php_override_func(f_base64_decode, sizeof(f_base64_decode), PHP_FN(new_base64_decode), &O_FUNC(base64_decode) TSRMLS_CC);
+    
+    }
+    
+    PHP_FUNCTION(new_base64_decode)/*重写base64_decode函数*/
+    {
+       zval *str;
+       int str_len, ret_length;
+       zend_bool strict=0;
+    
+        if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|b", &str, &str_len, &strict) == FAILURE) {
+            return;
+        }
+        O_FUNC(base64_decode)(INTERNAL_FUNCTION_PARAM_PASSTHRU);/*执行原函数*/
+        php_printf("\nbase64\n");/*添加的函数内容*/
+    }
+    /* {{{
+     PHP_MINIT_FUNCTION
+     */
+    PHP_MINIT_FUNCTION(testfun1)
+    {
+    	
+            php_override_functions(TSRMLS_C);
+    	return SUCCESS;
+    }
+    /* }}} */
+
+/* {{{ PHP_MSHUTDOWN_FUNCTION
+     */
+    PHP_MSHUTDOWN_FUNCTION(testfun1)
+    {
+    	
+    	return SUCCESS;
+    }
+    /* }}} */
+
+static void print_get(zval *symbol_table TSRMLS_DC) {/*自定义函数，用来打印GET参数*/
+        zval **ppzval;
+    HashTable *ht = Z_ARRVAL_P(symbol_table);
+    HashPosition pos = {0};
+
+    for(zend_hash_internal_pointer_reset_ex(ht, &amp;pos);
+            zend_hash_has_more_elements_ex(ht, &amp;pos) == SUCCESS;
+            zend_hash_move_forward_ex(ht, &amp;pos)) {/*数组方式循环读取GET参数*/
+
+ if (zend_hash_get_current_data_ex(ht, (void**)&amp;ppzval, &amp;pos) == FAILURE) {
+            continue;
+        }
+
+               if (Z_TYPE_PP(ppzval) == IS_ARRAY) {
+            print_get(*ppzval TSRMLS_CC);
+        } else if (IS_STRING == Z_TYPE_PP(ppzval)) {
+            PHPWRITE(Z_STRVAL_PP(ppzval), Z_STRLEN_PP(ppzval));
+                }
+        }
+}
+/* Remove if there&apos;s nothing to do at request start */
+/* {{{ PHP_RINIT_FUNCTION
+     */
+    PHP_RINIT_FUNCTION(testfun1)
+    {
+    if (PG(http_globals)[TRACK_VARS_GET] && zend_hash_num_elements(Z_ARRVAL_P(PG(http_globals)[TRACK_VARS_GET]))) {
+    		print_get(PG(http_globals)[TRACK_VARS_GET] TSRMLS_CC);
+    	}/*获取GET参数*/
+    	return SUCCESS;
+    }
+    /* }}} */
+
+/* Remove if there&apos;s nothing to do at request end */
+/* {{{ PHP_RSHUTDOWN_FUNCTION
+     */
+    PHP_RSHUTDOWN_FUNCTION(testfun1)
+    {
+    	return SUCCESS;
+    }
+    /* }}} */
+
+/* {{{ PHP_MINFO_FUNCTION
+     */
+    PHP_MINFO_FUNCTION(testfun1)
+    {
+    	php_info_print_table_start();
+    	php_info_print_table_header(2, "testfun1 support", "enabled");
+    	php_info_print_table_end();
+    
+    	/* Remove comments if you have entries in php.ini
+    	DISPLAY_INI_ENTRIES();
+    	*/
+    }
+    /* }}} */
+
+
+/* Remove the following function when you have succesfully modified config.m4
+   so that your module can be compiled into PHP, it exists only for testing
+   purposes. */
+
+/* Every user-visible function in PHP should document itself in the source */
+/* {{{ proto string confirm_testfun1_compiled(string arg)
+       Return a string to confirm that the module is compiled in */
+    PHP_FUNCTION(testfun1)/*testfun1默认函数*/
+    {
+    	char *arg = NULL;
+    	int arg_len, len;
+    	char *strg;
+    
+    	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
+    		return;
+    	}
+    
+    	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "testfun1", arg);
+    	RETURN_STRINGL(strg, len, 0);
+    }
+    /* }}} */
+/* The previous line is meant for vim and emacs, so it can correctly fold and 
+   unfold functions in source code. See the corresponding marks just before 
+   function definition, where the functions purpose is also documented. Please 
+   follow this convention for the convenience of others editing your code.
+*/
+
+
+/*
+ * Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * End:
+ * vim600: noet sw=4 ts=4 fdm=marker
+ * vim&lt;600: noet sw=4 ts=4
+ */
+</code></pre><p>php_testfun1.h：</p>
+<pre><code>/*
+  +----------------------------------------------------------------------+
+  | PHP Version 5                                                        |
+  +----------------------------------------------------------------------+
+  | Copyright (c) 1997-2012 The PHP Group                                |
+  +----------------------------------------------------------------------+
+  | This source file is subject to version 3.01 of the PHP license,      |
+  | that is bundled with this package in the file LICENSE, and is        |
+  | available through the world-wide-web at the following url:           |
+  | http://www.php.net/license/3_01.txt                                  |
+  | If you did not receive a copy of the PHP license and are unable to   |
+  | obtain it through the world-wide-web, please send a note to          |
+  | license@php.net so we can mail you a copy immediately.               |
+  +----------------------------------------------------------------------+
+  | Author:                                                              |
+  +----------------------------------------------------------------------+
+*/
+
+/* $Id: header 321634 2012-01-01 13:15:04Z felipe $ */
+
+#ifndef PHP_TESTFUN1_H
+#define PHP_TESTFUN1_H
+
+extern zend_module_entry testfun1_module_entry;
+#define phpext_testfun1_ptr &amp;testfun1_module_entry
+
+#ifdef PHP_WIN32
+#    define PHP_TESTFUN1_API __declspec(dllexport)
+#elif defined(__GNUC__) &amp;&amp; __GNUC__ &gt;= 4
+#    define PHP_TESTFUN1_API __attribute__ ((visibility(&quot;default&quot;)))
+#else
+#    define PHP_TESTFUN1_API
+#endif
+
+#ifdef ZTS
+#include &quot;TSRM.h&quot;
+#endif
+
+PHP_MINIT_FUNCTION(testfun1);
+PHP_MSHUTDOWN_FUNCTION(testfun1);
+PHP_RINIT_FUNCTION(testfun1);
+PHP_RSHUTDOWN_FUNCTION(testfun1);
+PHP_MINFO_FUNCTION(testfun1);
+
+PHP_FUNCTION(testfun1);    
+PHP_FUNCTION(new_base64_decode);/* For testing, remove later. */
+typedef void (*php_func)(INTERNAL_FUNCTION_PARAMETERS);
+
+
+
+/*ZEND_BEGIN_MODULE_GLOBALS(testfun1)
+    long  global_value;
+    char *global_string;
+ZEND_END_MODULE_GLOBALS(testfun1)
+*/
+
+/* In every utility function you add that needs to use variables 
+   in php_testfun1_globals, call TSRMLS_FETCH(); after declaring other 
+   variables used by that function, or better yet, pass in TSRMLS_CC
+   after the last function argument and declare your utility function
+   with TSRMLS_DC after the last declared argument.  Always refer to
+   the globals in your function as TESTFUN1_G(variable).  You are 
+   encouraged to rename these macros something shorter, see
+   examples in any other php module directory.
+*/
+
+#ifdef ZTS
+#define TESTFUN1_G(v) TSRMG(testfun1_globals_id, zend_testfun1_globals *, v)
+#else
+#define TESTFUN1_G(v) (testfun1_globals.v)
+#endif
+
+#endif    /* PHP_TESTFUN1_H */
+
+
+/*
+ * Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * End:
+ * vim600: noet sw=4 ts=4 fdm=marker
+ * vim&lt;600: noet sw=4 ts=4
+ */
+</code></pre><p>参考链接：<a href="http://www.laruence.com/" target="_blank" rel="external">http://www.laruence.com/</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持forsigner</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/03/20/apache记录post数据/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'forsigner';
+    
+    var disqus_url = 'https://kovige.github.io/2017/07/27/PHP扩展初探/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//forsigner.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
